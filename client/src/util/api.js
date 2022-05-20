@@ -167,7 +167,8 @@ export async function getSearchTimeLine({pageParam = 0, query}) {
 
 export async function getUsernameRequest(values) {
   const res = await client.post("/username", {values});
-  if (res.status == 200) window.location.pathname = "/";
+  if (res.status == 200)
+    window.location.pathname = res.data?.username + "/profile";
   return res?.data?.username || "";
 }
 
@@ -177,6 +178,8 @@ export async function getSuggestionRequest(values) {
 }
 
 export function useFollowMutation({username, _id}) {
+  const {username: currUser} = useAuth();
+  console.log(username);
   const followUserRequest = async () =>
     await client.post("/users/follow", {_id});
   const {mutate} = useMutation(
@@ -186,6 +189,8 @@ export function useFollowMutation({username, _id}) {
       onSuccess: async ({data}) => {
         await queryClient.invalidateQueries("getSuggestion");
         await queryClient.refetchQueries(["getProfile", username]);
+        await queryClient.refetchQueries(["getProfile", currUser]);
+
         socket.emit("follow", data);
       },
     }

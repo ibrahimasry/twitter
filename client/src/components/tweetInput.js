@@ -167,10 +167,10 @@ export default function TweetInput({
         </div>
       )}
       <div className="flex space-x-3 px-100  py-3 relative items-center text-2xl">
-        <BsEmojiSmileFill
+        {/* <BsEmojiSmileFill
           className=""
           onClick={() => setShowPicker(true)}
-        ></BsEmojiSmileFill>
+        ></BsEmojiSmileFill> */}
         {showPicker && (
           <div className="w-1/6  absolute top-0 z-20">
             <Picker onEmojiClick={onEmojiClick}></Picker>

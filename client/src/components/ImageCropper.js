@@ -10,7 +10,7 @@ function ImageCropper(props) {
 
   return (
     <>
-      <div className="relative ">
+      <div className="relative space-y-4 ">
         <AvatarEditor
           ref={editor}
           image={props.imageToCrop}
@@ -32,7 +32,7 @@ function ImageCropper(props) {
           ></div>
         )}
         <Button
-          className="p-1"
+          className="p-1 rounded-sm "
           onClick={() => {
             if (editor) {
               const file = editor.current.getImage().toDataURL();
