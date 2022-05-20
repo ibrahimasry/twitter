@@ -10,7 +10,6 @@ import xss from "xss-clean";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import db from "./database.js";
-import {mailInit, sendEmail} from "./mail.js";
 import User from "./models/user.js";
 import {corsOptionsProducation} from "./cors-config.js";
 import session from "./session-config.js";
