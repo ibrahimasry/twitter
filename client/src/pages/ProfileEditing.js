@@ -45,8 +45,8 @@ export default function ProfileEditing({close}) {
 
         setImageToCrop(image);
         setShowDialog(true);
-        if (field == "cover") setOptions({width: 300, height: 100, field});
-        else setOptions({width: 100, height: 100, field});
+        if (field == "cover") setOptions({field});
+        else setOptions({field});
       });
 
       reader.readAsDataURL(event.target.files[0]);
@@ -89,7 +89,7 @@ export default function ProfileEditing({close}) {
       <form onSubmit={onSubmitHandler} className="space-y-4 ">
         <div className="flex flex-col space-x-2 text-xs">
           <div
-            className={`flex flex-col  p-1 overflow-hidden bg-background space-y-4 w-30 h-15 w-9/12  bg-cover bg-no-repeat`}
+            className={`flex flex-col  p-1  bg-background space-y-4 w-[40vw] h-[15vw]  bg-cover bg-no-repeat`}
             style={{
               backgroundImage: `url(${cover})`,
               backgroundSize: "cover",
@@ -120,7 +120,7 @@ export default function ProfileEditing({close}) {
 
             <label
               htmlFor="avatar"
-              className={`  p-2  self-start rounded-full w-32  h-32 overflow-hidden  text-center`}
+              className={`  p-2  mr-auto rounded-full w-[10vw] h-[10vw]   text-center`}
             >
               <div
                 style={{
@@ -129,7 +129,7 @@ export default function ProfileEditing({close}) {
                   backgroundPosition: "center",
                   backgroundBlendMode: "multiply",
                 }}
-                className="text-secondary flex flex-col justify-center items-center bg-background h-full w-full rounded-full "
+                className="text-secondary flex flex-col justify-center items-center bg-background w-[7vw] h-[7vw] rounded-full  "
               >
                 {isUpload && options.field == "avatar" ? (
                   <CircularProgress variant="determinate" value={progress} />

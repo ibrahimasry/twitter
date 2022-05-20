@@ -1,38 +1,28 @@
 import {Slider} from "@mui/material";
-import {Field} from "formik";
 import React, {useRef, useState} from "react";
 import AvatarEditor from "react-avatar-editor";
 import Button from "./shared/Button";
-
 function ImageCropper(props) {
   const editor = useRef(null);
-  const w = `w-[100px]`;
-  const h = `h-[100px]`;
   const [progress, setProgress] = useState(1);
 
+  const style =
+    props.field === "avatar"
+      ? {width: "12rem", height: "12rem", position: "relative"}
+      : {width: "40vw", height: "15vw", position: "relative"};
   return (
     <>
-      <div className="relative space-y-4 ">
+      <div className=" space-y-4 flex flex-col items-center">
         <AvatarEditor
           ref={editor}
           image={props.imageToCrop}
-          width={props.width}
-          height={props.height}
-          border={100}
+          style={style}
+          border={25}
           color={[0, 0, 0, 0.6]} // RGBA
           scale={progress}
           rotate={0}
           disableBoundaryChecks
         ></AvatarEditor>
-        {props.field == "avatar" ? (
-          <div
-            className={`pointer-events-none absolute top-[85px] left-[100px]  border-dark-grey border-2 border-solid w-[100px] h-[100px]`}
-          ></div>
-        ) : (
-          <div
-            className={`pointer-events-none absolute top-[85px] left-[100px]  border-dark-grey border-2 border-solid w-[300px] h-[100px]`}
-          ></div>
-        )}
         <Slider
           size="small"
           defaultValue={70}
