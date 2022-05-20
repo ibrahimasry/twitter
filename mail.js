@@ -1,7 +1,7 @@
 import sgMail from "@sendgrid/mail";
 sgMail.setApiKey(process.env.EMAIL);
 
-export async function sendEmail({
+export default async function sendEmail({
   from = "ibrahim@gmail.com",
   to = "user@gmail.com",
   subject,
