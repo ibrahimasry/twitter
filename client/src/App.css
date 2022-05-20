@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@200&display=swap");
+
+:root {
+  --blue: 29 161 242;
+  --dark-grey: 101 119 134;
+  --light-grey: 170 184 194;
+  --extra-light-grey: 225 232 237;
+  --xextra-light-grey: 245 248 25;
+  --secondary: 121, 111, 94;
+  --background: 21, 32, 43;
+  --neutral: 247, 249, 249;
+  --background-clickable: 0, 186, 124;
+}
+
+body {
+  font-family: "Mulish", sans-serif;
+  background-color: rgb(var(--background));
+  color: rgb(var(--neutral));
+}
+
+li,
+input,
+textarea {
+  background: rgb(var(--background));
+}
+a {
+  color: rgb(var(--background-clickable));
+}
+
+/* button {
+  background-color: rgb(var(--background-clickable));
+} */
+
+.unheart {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image: url("https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png");
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: 2900%;
+}
+
+.heart {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image: url("https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 2900%;
+}
+
+.animate-heart {
+  animation: heart-burst 0.8s steps(28) 1;
+}
+.css-1bx0sm6-MuiCircularProgress-root {
+  color: red !important;
+}
+
+.public-DraftEditorPlaceholder-inner {
+  color: #aaaaaa;
+  font-size: 1.5rem;
+}
+.DraftEditor-editorContainer {
+  background-color: rgba(255, 255, 255, 0);
+  border-left: 0.1px solid transparent;
+  min-height: 10vh;
+  word-break: break-all;
+  font-size: 1.5rem;
+}
+
+/* .public-DraftEditor-content {
+  overflow: auto;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre pre {
+  white-space: normal;
+}
+pre {
+  overflow: hidden;
+} */
+
+/* .unheart:hover {
+  background-position: right;
+} */
+
+/* .heart:hover {
+  background-position: left;
+} */
+
+@keyframes heart-burst {
+  from {
+    background-position: left;
+  }
+  to {
+    background-position: right;
+  }
+}
