@@ -31,7 +31,7 @@
     [data-reach-dialog-content] {
       max-width: 50vw !important;
       margin: 20vh auto !important;
-      height: auto !important;
+      min-height: 50vh !important;
     }
   }
   [data-reach-dialog-overlay] {

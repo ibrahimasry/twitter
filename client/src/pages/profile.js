@@ -97,7 +97,7 @@ export default function Profile() {
     <>
       <Header title="profile" goBack={true}></Header>
       <div className="p-3">
-        <div className="h-28">
+        <div className="h-[20vw] w-[50vw]">
           <img className="w-full h-full" src={cover}></img>
         </div>
 

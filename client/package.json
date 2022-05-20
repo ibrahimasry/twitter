@@ -45,6 +45,7 @@
     "react-image-crop": "^10.0.1",
     "react-intersection-observer": "^9.0.0",
     "react-query": "^3.38.0",
+    "react-responsive": "^9.0.0-beta.8",
     "react-router-dom": "6",
     "react-scripts": "^5.0.1",
     "react-tiny-link": "^3.6.1",
