@@ -1,18 +1,5 @@
-import nodemailer from "nodemailer";
-
-let mail;
-
-export async function mailInit() {
-  let testAccount = await nodemailer.createTestAccount();
-  mail = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-      user: 'lenora.sanford10@ethereal.email',
-      pass: 'ZN12MsKQAKfM5D6Pf2'
-    }
-  });
-}
+import sgMail from "@sendgrid/mail";
+sgMail.setApiKey(process.env.EMAIL);
 
 export async function sendEmail({
   from = "ibrahim@gmail.com",
@@ -21,7 +8,8 @@ export async function sendEmail({
   html,
 }) {
   try {
-    await mail.sendMail({
+    await sgMail.send(msg);
+    ({
       from,
       to,
       subject,
