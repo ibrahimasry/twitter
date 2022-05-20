@@ -68,6 +68,7 @@ export default function Home() {
           </div>
         )}
         <TimeLine
+          emptyMsg={"follow more people to see tweets"}
           tweets={data}
           isFetching={isFetching}
           hasNextPage={hasNextPage}

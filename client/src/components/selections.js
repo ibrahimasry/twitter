@@ -18,7 +18,7 @@ export default function Selections({labelId, items, onChangeHandler, ...rest}) {
       {items &&
         items.map((item, i) => (
           <ListboxOption
-            className="border-2 border-secondary border-solid"
+            className="border-2  border-secondary border-solid text-xs"
             value={getValue(labelId, item, i)}
             key={item}
           >

@@ -5,12 +5,13 @@ export default function DatePicker(props) {
   const [month, setMonth] = useState(1);
   const [days, setDays] = useState([]);
   useEffect(() => {
-    const monthNumber = getMonths().indexOf(month);
-    const curr = getDays(year, monthNumber + 1);
+    const monthNumber = Number(month);
+    const curr = getDays(year, monthNumber);
     setDays(() => curr);
   }, [year, month]);
+
   return (
-    <div className="flex  space-x-4 items-baseline overflow-scroll">
+    <div className="flex  text-xs space-x-2 items-baseline ">
       <span className="text-xs">data of birth :</span>
       <Selections
         items={getYears()}

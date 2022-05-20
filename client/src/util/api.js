@@ -161,7 +161,9 @@ export async function getHashTagTimeLine({pageParam = 0, hashtag}) {
 }
 
 export async function getSearchTimeLine({pageParam = 0, query}) {
-  const res = await client.get(`/tweets/search?query=${query}`);
+  const res = await client.get(
+    `/tweets/search?query=${query}&page=${pageParam}`
+  );
   return res?.data || [];
 }
 

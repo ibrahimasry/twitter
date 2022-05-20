@@ -92,7 +92,7 @@ export default function Profile() {
       </div>
     );
   const isOwner = currUser.username === username;
-  console.log(isFollowing);
+  console.log(website);
   return (
     <>
       <Header title="profile" goBack={true}></Header>

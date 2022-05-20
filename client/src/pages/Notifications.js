@@ -25,7 +25,10 @@ export default function Notifications() {
   return (
     <>
       <Header goBack={true} title={"Notifications"}></Header>
-      <div className="flex flex-col space-y-2 p-2 text-xs">
+      <div className="flex flex-col space-y-2 p-2 text-xs border">
+        {notifications && notifications.length == 0 && (
+          <span>no new notifications</span>
+        )}
         {notifications &&
           notifications.map((curr, i) => (
             <span key={i} className="shadow-light-grey shadow-sm p-2 ">
