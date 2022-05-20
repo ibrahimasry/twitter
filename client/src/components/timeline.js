@@ -19,7 +19,14 @@ export default function TimeLine({tweets, hasNextPage, isFetching}) {
       })}
       <div className="flex flex-col items-center">
         {isFetching && <LinearProgress className="text-steal-300 w-1/2 " />}
-        {!hasNextPage && <span>no more tweets</span>}
+        {!hasNextPage && !isFetching && tweets?.pages[0]?.data?.length > 0 && (
+          <span>no more tweets</span>
+        )}
+        {!hasNextPage &&
+          !isFetching &&
+          tweets?.pages[0]?.data?.length === 0 && (
+            <span>follow people to see tweets </span>
+          )}
       </div>
     </div>
   );
@@ -29,7 +36,6 @@ export function getListFromPagination(apiResult, mapCb) {
   return (
     <>
       {apiResult?.pages?.map(({data: group}, i) => {
-        console.log(group);
         return (
           <React.Fragment key={i}>
             {group?.map((item, j) => mapCb(item, j, i))}

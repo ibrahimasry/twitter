@@ -28,11 +28,10 @@ export const login = async (req, res) => {
 export const signup = async ({body}, res) => {
   const birthDate = body.year + "-" + body.month + "-" + body.day;
   const verificationExpiry = Date.now() + 1000 * 60 * 10;
-  const verificationCode = Math.floor(Math.random() * 6);
+  const verificationCode = Math.floor(1000 + Math.random() * 9000);
   let dup = await User.findOne({email: body.email});
   if (dup) throw new ErrorResponse("email already exits", "email", 401);
 
-  console.log(verificationCode);
   const user = await User.create({
     name: body.name,
     email: body.email,
@@ -41,7 +40,7 @@ export const signup = async ({body}, res) => {
     verificationCode,
     verificationExpiry,
   });
-  const html = `<span> code : ${verificationCode} </span>`;
+  const html = `<span> code to verfiy your account : ${verificationCode} </span>`;
   await sendEmail({to: body.email, subject: "account verificaton", html});
   return res.json({success: true});
 };
@@ -67,7 +66,11 @@ export const verfiy = async ({body}, res) => {
   }
 };
 
-export const pickUsername = async ({body: {values}}, res, next) => {
+export const pickUsername = async (req, res, next) => {
+  const {
+    body: {values},
+  } = req;
+
   const {email, username} = values;
   const user = await User.findOne({email});
   const dup = await User.findOne({username});

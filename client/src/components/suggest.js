@@ -19,19 +19,28 @@ export default function Suggest() {
         users.map(({name, username, avatar, _id}) => {
           return (
             <div
-              onClick={() => onClickHandler(username)}
-              className="flex flex-col space-y-1 cursor-pointer"
-              key={_id}
+              key={username}
+              className="flex space-x-1 items-start justify-between"
             >
-              <div className="border-2  border-solid border-black rounded-full w-10 h-10">
-                <img className="w-full h-full rounded-full " src={avatar}></img>
-              </div>
-              <div>
-                <div className="flex flex-col p-2">
-                  <span>@{username}</span>
-                  <span>{name}</span>
+              <div
+                onClick={() => onClickHandler(username)}
+                className="flex flex-col space-y-1 cursor-pointer"
+                key={_id}
+              >
+                <div className="border-2  border-solid border-black rounded-full w-10 h-10">
+                  <img
+                    className="w-full h-full rounded-full "
+                    src={avatar}
+                  ></img>
+                </div>
+                <div>
+                  <div className="flex flex-col p-2">
+                    <span>@{username}</span>
+                    <span>{name}</span>
+                  </div>
                 </div>
               </div>
+              <Button user={{username, _id}}></Button>
             </div>
           );
         })}

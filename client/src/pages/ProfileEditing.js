@@ -53,7 +53,6 @@ export default function ProfileEditing({close}) {
     }
   };
 
-  console.log(isUpload);
   const uploadImage = async (file, field) => {
     setIsUpload(true);
     if (field == "avatar") setAvatar(file);
@@ -151,7 +150,7 @@ export default function ProfileEditing({close}) {
           </div>
         </div>
 
-        <div className="space-y-2 w-3/4 flex flex-col ">
+        <div className="space-y-2   w-3/4 flex flex-col ">
           <label htmlFor="bio" className="flex space-x-10">
             <span>bio</span>
             <textarea
@@ -192,7 +191,11 @@ export default function ProfileEditing({close}) {
             focus:border-blue-500 rounded-ls flex-1`}
             ></input>
           </label>
-          <Button type="submit" className="p-1" disabled={isUpload}>
+          <Button
+            type="submit"
+            className="p-1  rounded-sm self-center text-sm"
+            disabled={isUpload}
+          >
             submit
           </Button>
         </div>

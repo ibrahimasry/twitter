@@ -14,7 +14,11 @@ import TimeLine from "../components/timeline";
 import ProfileTweet from "../components/profileTweet";
 import ProfileLikes from "../components/profileLikes";
 import {useMutation, useQuery} from "react-query";
-import {AiFillMessage, AiOutlineLoading} from "react-icons/ai";
+import {
+  AiFillMessage,
+  AiOutlineLoading,
+  AiOutlineLoading3Quarters,
+} from "react-icons/ai";
 import {
   createChat,
   getFollowers,
@@ -24,7 +28,11 @@ import {
 } from "../util/api";
 import useSocketEvent from "../useSocketEvent";
 import {queryClient} from "../AppProvider";
-import {FaInternetExplorer, FaLocationArrow} from "react-icons/fa";
+import {
+  FaInternetExplorer,
+  FaLocationArrow,
+  FaTruckLoading,
+} from "react-icons/fa";
 import {BsChevronDoubleDown} from "react-icons/bs";
 import {Button} from "../components/ProfilePreview";
 import Header from "../components/Header";
@@ -61,6 +69,7 @@ export default function Profile() {
   };
 
   const {
+    bio,
     username,
     cover,
     location,
@@ -76,8 +85,14 @@ export default function Profile() {
   } = user || {};
 
   if (isError) return <span>{JSON.stringify(error, null, 2)}</span>;
-  if (isLoading) return <AiOutlineLoading></AiOutlineLoading>;
+  if (isLoading)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <AiOutlineLoading3Quarters className="animate-pulse animate-ping h-14 w-14"></AiOutlineLoading3Quarters>
+      </div>
+    );
   const isOwner = currUser.username === username;
+  console.log(isFollowing);
   return (
     <>
       <Header title="profile" goBack={true}></Header>
@@ -124,21 +139,28 @@ export default function Profile() {
             <div className="flex flex-col p-2 ">
               <span>@{username}</span>
               <span>{name}</span>
+              <span>{bio}</span>
               <div className="text-xs flex space-x-2">
-                <span className="flex space-x-1 ">
-                  <FaLocationArrow className="text-gray-300"> </FaLocationArrow>
-                  <span>{location}</span>
-                </span>
-                <span className="flex space-x-1">
-                  <BsChevronDoubleDown className="text-gray-300"></BsChevronDoubleDown>
-                  <span> born at {birth}</span>
-                </span>
-                <span className="flex space-x-1">
-                  <FaInternetExplorer className="text-gray-200"></FaInternetExplorer>
-                  <span>
-                    {website && <a href={website}>{website.slice(0, 10)}</a>}
+                {location && (
+                  <span className="flex space-x-1 ">
+                    <FaLocationArrow className="text-gray-300">
+                      {" "}
+                    </FaLocationArrow>
+                    <span>{location}</span>
                   </span>
-                </span>
+                )}
+                {birth && (
+                  <span className="flex space-x-1">
+                    <BsChevronDoubleDown className="text-gray-300"></BsChevronDoubleDown>
+                    <span> born at {birth}</span>
+                  </span>
+                )}
+                {website && (
+                  <span className="flex space-x-1">
+                    <FaInternetExplorer className="text-gray-200"></FaInternetExplorer>
+                    <span>{<a href={website}>{website.slice(0, 10)}</a>}</span>
+                  </span>
+                )}
 
                 <span>
                   {" "}

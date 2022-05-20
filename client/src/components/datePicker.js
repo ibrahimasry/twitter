@@ -10,7 +10,7 @@ export default function DatePicker(props) {
     setDays(() => curr);
   }, [year, month]);
   return (
-    <div className="flex  space-x-4 items-baseline">
+    <div className="flex  space-x-4 items-baseline overflow-scroll">
       <span className="text-xs">data of birth :</span>
       <Selections
         items={getYears()}

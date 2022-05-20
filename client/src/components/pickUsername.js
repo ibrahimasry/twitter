@@ -3,8 +3,7 @@ import React from "react";
 
 export default function PickUsername(props) {
   const {
-    formField: { username },
+    formField: {username},
   } = props;
-  console.log(username);
   return <TextInput name={username.name} label={username.label}></TextInput>;
 }

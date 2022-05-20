@@ -10,9 +10,6 @@ export default ({username}) => {
   );
   const {_id, isFollowing} = user || {};
 
-  const [isFollowingState, setIsFollowingState] = useState(isFollowing);
-  useEffect(() => setIsFollowingState(isFollowing), [isFollowing]);
-
   return (
     <>
       <div
@@ -32,13 +29,13 @@ export default ({username}) => {
                   src={user.avatar}
                 ></img>
               </div>
-              {user.isFollowing !== undefined && (
+              {
                 <Button
                   _id={_id}
                   username={username}
-                  followingState={isFollowingState}
+                  followingState={isFollowing}
                 ></Button>
-              )}
+              }
             </div>
             <span className="font-extrabold text-lg">@{username}</span>
             <span className="font-extrabold">{user.name}</span>
@@ -67,29 +64,27 @@ export default ({username}) => {
 };
 
 export function Button({_id, followingState, username}) {
-  const [isFollowing, setIsFollwing] = useState(followingState);
-  const [text, setText] = useState("");
+  const [isFollowing, setIsFollowing] = useState(followingState);
   const [hoverText, setHoverText] = useState("");
   const {mutate} = useFollowMutation({_id, username});
 
+  useEffect(() => {
+    setIsFollowing(followingState);
+  }, [followingState]);
   const handleOnClick = () => {
-    mutate(_id);
-    setIsFollwing(!isFollowing);
+    setIsFollowing(!isFollowing);
     setHoverText("");
+
+    mutate(_id);
   };
   const mouseEnter = () => {
-    if (text == "follow") setHoverText("following");
-    else if (text == "following") setHoverText("unfollow");
+    if (!isFollowing) setHoverText("following");
+    else setHoverText("unfollow");
   };
   const mouseLeave = () => {
-    if (hoverText == "unfollow") setHoverText("following");
-    else if (hoverText == "following") setHoverText("follow");
+    setHoverText("");
   };
 
-  useEffect(() => {
-    if (isFollowing) setText("following");
-    else setText("follow");
-  }, [isFollowing]);
   if (followingState === undefined) return;
 
   return isFollowing ? (
@@ -99,7 +94,7 @@ export function Button({_id, followingState, username}) {
       onClick={handleOnClick}
       className="text-sm border-2 border-solid border-light-grey text-extra-light-grey self-center p-4 py-1   font-semibold rounded-2xl hover:text-dark-grey hover:border-dark-grey"
     >
-      {hoverText || text}
+      {hoverText || "following"}
     </button>
   ) : (
     <button
@@ -108,7 +103,7 @@ export function Button({_id, followingState, username}) {
       onMouseEnter={() => mouseEnter()}
       className="text-sm border-2 border-solid border-light-grey  bg-extra-light-grey self-center p-4 py-1   font-semibold rounded-2xl text-dark-grey hover:border-dark-grey"
     >
-      {hoverText || text}
+      {hoverText || "follow"}
     </button>
   );
 }

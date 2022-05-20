@@ -102,12 +102,16 @@ export default function SignUp() {
         <Form id={formId} autoFocus={false} className="space-y-2">
           {_renderStepContent(activeStep)}
 
-          <div>
-            {activeStep !== 0 && <Button onClick={_handleBack}>Back</Button>}
+          <div className="space-x-6">
+            {activeStep !== 0 && (
+              <Button className="p-1 rounded-sm text-sm" onClick={_handleBack}>
+                Back
+              </Button>
+            )}
             <Button
               disabled={isSubmitting}
               type="submit"
-              className="p-2 rounded-lg"
+              className="p-1 rounded-sm text-sm"
             >
               {isLastStep ? "submit" : "Next"}
             </Button>
