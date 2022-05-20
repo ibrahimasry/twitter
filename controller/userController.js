@@ -13,12 +13,12 @@ export const getUserLikes = async (req, res) => {
   const query = {likes: _id};
 
   const data = await Tweet.find(query)
-    .sort("-likes.createdAt")
+    .sort("-createdAt")
     .skip(skip)
     .limit(limit)
     .lean();
   if (!data || data.length == 0) return res.json({});
-
+  console.log(data);
   const tweets = serializeTweets(data, req);
 
   return res.json({data: tweets, nextCursor: page + 1});
