@@ -9,7 +9,7 @@ export default function TextInput(props) {
   function _renderHelperText() {
     const [touched, error] = at(meta, "touched", "error");
     if (touched && error) {
-      return <span className="block">{error}</span>;
+      return <span className="block text-xs text-red-500 italic">{error}</span>;
     }
   }
   const onFocusHandler = (e) => {

@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import signUpModel from "./signUpModel";
 
 const {
-  formField: { name, username, password, code, email, year, month, day },
+  formField: {name, username, password, code, email, year, month, day},
 } = signUpModel;
 
 const schema = [

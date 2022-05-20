@@ -7,12 +7,13 @@ import TimeLine from "./timeline";
 export default function SearchTimeLine() {
   const [searchParams] = useSearchParams();
 
-  console.log(searchParams.get("query"));
   const query = searchParams.get("query");
   const data = useInfiniteData({
     apiCallId: query,
     apiCall: getSearchTimeLine,
     apiProps: {query},
   });
-  return <TimeLine {...data}></TimeLine>;
+  return (
+    <TimeLine {...data} emptyMsg={"no tweets with that search data"}></TimeLine>
+  );
 }

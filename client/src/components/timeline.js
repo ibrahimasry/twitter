@@ -2,14 +2,13 @@ import {CircularProgress, LinearProgress} from "@mui/material";
 import React, {useEffect, useState, useRef} from "react";
 import Post from "./post";
 
-export default function TimeLine({tweets, hasNextPage, isFetching}) {
+export default function TimeLine({tweets, hasNextPage, isFetching, emptyMsg}) {
   if (!tweets)
     return (
       <span className="flex  justify-center">
         <CircularProgress></CircularProgress>
       </span>
     );
-
   return (
     <div className="">
       {getListFromPagination(tweets, (tweet, j, i) => {
@@ -18,15 +17,16 @@ export default function TimeLine({tweets, hasNextPage, isFetching}) {
         return <Post key={tweet._id} tweet={tweet}></Post>;
       })}
       <div className="flex flex-col items-center">
-        {isFetching && <LinearProgress className="text-steal-300 w-1/2 " />}
+        {isFetching && (
+          <LinearProgress className="text-steal-300 w-1/2 my-4 " />
+        )}
         {!hasNextPage && !isFetching && tweets?.pages[0]?.data?.length > 0 && (
           <span>no more tweets</span>
         )}
+        {/* //if there is no data from first request */}
         {!hasNextPage &&
           !isFetching &&
-          tweets?.pages[0]?.data?.length === 0 && (
-            <span>follow people to see tweets </span>
-          )}
+          tweets?.pages[0]?.data?.length === 0 && <span> {emptyMsg} </span>}
       </div>
     </div>
   );

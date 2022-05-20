@@ -258,10 +258,11 @@ export const getTweet = async (req, res) => {
 export const searchTweets = async (req, res) => {
   const query = req.query.query;
   const page = Number(req.query.page) || 0;
-  const limit = 4;
+  const limit = 10;
   const skip = page * limit;
   const search = new RegExp(query, "i");
   let data = await Tweet.find({text: search}).limit(limit).skip(skip).lean();
+  if (data && data.length === 0) res.json({data});
   if (req.session?.user) data = serializeTweets(data, req);
   res.json({data, nextCursor: page + 1});
 };

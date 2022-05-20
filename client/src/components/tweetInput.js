@@ -33,7 +33,9 @@ export default function TweetInput({
   const [image, setImage] = useState();
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [placeHolder, setPlaceHolder] = useState("what's happing?");
+  const [placeHolder, setPlaceHolder] = useState(
+    !isReply ? "what's happening?" : "add reply"
+  );
   const {mutate: postTweetMutation} = useMutation("postTweet", postTweet);
   const {mutate: postReplyMutation} = useMutation(
     "postReplyRequest",

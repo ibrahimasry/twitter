@@ -12,5 +12,7 @@ export default function HashTagsTimeLine() {
     apiCall: getHashTagTimeLine,
     apiProps: {hashtag},
   });
-  return <TimeLine {...data}></TimeLine>;
+  return (
+    <TimeLine {...data} emptyMsg={"no result for that hashtag"}></TimeLine>
+  );
 }

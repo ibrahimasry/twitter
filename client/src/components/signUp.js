@@ -47,13 +47,6 @@ export default function SignUp() {
     }
   }
 
-  async function _submitForm(values, actions) {
-    await _sleep(1000);
-    alert(JSON.stringify(values, null, 2));
-    actions.setSubmitting(false);
-
-    setActiveStep(activeStep + 1);
-  }
   async function _handleSubmit(values, actions) {
     function onSuccess(d) {
       setActiveStep(activeStep + 1);
@@ -84,7 +77,6 @@ export default function SignUp() {
         onError,
       });
     } else {
-      console.log("last");
       onSuccess();
     }
   }
@@ -103,11 +95,6 @@ export default function SignUp() {
           {_renderStepContent(activeStep)}
 
           <div className="space-x-6">
-            {activeStep !== 0 && (
-              <Button className="p-1 rounded-sm text-sm" onClick={_handleBack}>
-                Back
-              </Button>
-            )}
             <Button
               disabled={isSubmitting}
               type="submit"
@@ -115,6 +102,11 @@ export default function SignUp() {
             >
               {isLastStep ? "submit" : "Next"}
             </Button>
+            {activeStep !== 0 && (
+              <Button className="p-1 rounded-sm text-sm" onClick={_handleBack}>
+                Back
+              </Button>
+            )}
           </div>
         </Form>
       )}

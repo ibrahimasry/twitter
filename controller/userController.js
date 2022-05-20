@@ -53,7 +53,7 @@ export const getUserInfo = async (req, res) => {
   const username = req.params.username;
 
   const user = await User.findOne({username}).lean();
-  if (authUser.username !== username)
+  if (authUser && authUser?.username !== username)
     user.isFollowing = !!(await User.findOne({
       username,
       followers: authUser._id,
