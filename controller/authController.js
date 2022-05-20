@@ -1,7 +1,7 @@
 import {ErrorResponse} from "../errorHandler.js";
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
-
+import sendEmail from "../mail.js";
 export const login = async (req, res) => {
   const {username, password} = req.body;
   const email = username;
@@ -42,7 +42,7 @@ export const signup = async ({body}, res) => {
     verificationExpiry,
   });
   const html = `<span> code : ${verificationCode} </span>`;
-  //await sendEmail({to: body.email, subject: "account verificaton", html});
+  await sendEmail({to: body.email, subject: "account verificaton", html});
   return res.json({success: true});
 };
 
