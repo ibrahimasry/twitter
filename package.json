@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon node index.js"
+    "start": "nodemon node index.js",
+    "heroku-postbuild": "cd client && yarn && yarn build"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
