@@ -16,6 +16,7 @@ import ProfileLikes from "../components/profileLikes";
 import {useMutation, useQuery} from "react-query";
 import {
   AiFillMessage,
+  AiFillSlackCircle,
   AiOutlineLoading,
   AiOutlineLoading3Quarters,
 } from "react-icons/ai";
@@ -84,7 +85,6 @@ export default function Profile() {
     _id,
   } = user || {};
 
-  if (isError) return <span>{JSON.stringify(error, null, 2)}</span>;
   if (isLoading)
     return (
       <div className="h-screen flex justify-center items-center">
@@ -92,12 +92,11 @@ export default function Profile() {
       </div>
     );
   const isOwner = currUser.username === username;
-  console.log(website);
   return (
     <>
       <Header title="profile" goBack={true}></Header>
-      <div className="p-3">
-        <div className="h-[20vw] w-[50vw]">
+      <div className="lg:p-3">
+        <div className="h-[30vw] w-full md:h-[20vw] md:w-[60vw] ">
           <img className="w-full h-full" src={cover}></img>
         </div>
 
@@ -157,7 +156,7 @@ export default function Profile() {
                 )}
                 {website && (
                   <span className="flex space-x-1">
-                    <FaInternetExplorer className="text-gray-200"></FaInternetExplorer>
+                    <AiFillSlackCircle className="text-gray-200"></AiFillSlackCircle>
                     <span>{<a href={website}>{website.slice(0, 10)}</a>}</span>
                   </span>
                 )}
@@ -165,7 +164,7 @@ export default function Profile() {
                 <span>
                   {" "}
                   <em>
-                    "Join since :"{" "}
+                    Join since :{" "}
                     {new Date(join)
                       .toDateString()
                       .split(" ")

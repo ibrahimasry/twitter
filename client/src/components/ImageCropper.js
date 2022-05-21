@@ -1,18 +1,26 @@
 import {Slider} from "@mui/material";
 import React, {useRef, useState} from "react";
+import {useMediaQuery} from "react-responsive";
 import AvatarEditor from "react-avatar-editor";
 import Button from "./shared/Button";
 function ImageCropper(props) {
   const editor = useRef(null);
   const [progress, setProgress] = useState(1);
+  const isDesktop = useMediaQuery({
+    query: "(min-width: 1000px)",
+  });
 
   const style =
     props.field === "avatar"
       ? {width: "12rem", height: "12rem", position: "relative"}
-      : {width: "40vw", height: "15vw", position: "relative"};
+      : {
+          width: isDesktop ? "40vw" : "70vw",
+          height: isDesktop ? "15vw" : "30vw",
+          position: "relative",
+        };
   return (
     <>
-      <div className=" space-y-4 flex flex-col items-center">
+      <div className=" space-y-4 flex flex-col items-center overflow-auto">
         <AvatarEditor
           ref={editor}
           image={props.imageToCrop}
