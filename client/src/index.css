@@ -28,9 +28,10 @@
     height: 100% !important;
   }
   @screen lg {
-    [data-reach-dialog-content] {
+    [data-reach-dialog-overlay] > [data-reach-dialog-content] {
       max-width: 50vw !important;
       margin: 20vh auto !important;
+      margin-bottom: 0 !important;
       min-height: 50vh !important;
     }
   }
