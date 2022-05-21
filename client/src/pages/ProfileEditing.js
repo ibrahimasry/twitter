@@ -89,7 +89,7 @@ export default function ProfileEditing({close}) {
       <form onSubmit={onSubmitHandler} className="space-y-4 ">
         <div className="flex flex-col space-x-2 text-xs">
           <div
-            className={`flex flex-col  p-1  bg-background space-y-4 w-[40vw] h-[15vw]  bg-cover bg-no-repeat`}
+            className={`flex flex-col  p-1  bg-background space-y-4 h-[30vw] w-full md:h-[20vw] md:w-[40vw]  bg-cover bg-no-repeat`}
             style={{
               backgroundImage: `url(${cover})`,
               backgroundSize: "cover",

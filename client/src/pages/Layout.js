@@ -42,7 +42,7 @@ export default function Layout({children}) {
   const Counter = tw.span`absolute w-6 h-6 -top-1  -right-1 text-neutral font-extrabold flex items-center justify-center bottom-2 p-1 rounded-full text-xs bg-secondary`;
   return (
     <>
-      <div className="grid grid-cols-12  sm:gap-4  min-h-screen p-4">
+      <div className="grid grid-cols-12  sm:gap-4  min-h-screen  md:p-4 ">
         <header className="md:h-screen border-t-[1px] md:border-t-[0px] md:w-32 fixed z-50 bottom-0 w-full   md:px-8 flex  md:flex-col justify-around items-center p-2 md:items-center md:text-3xl md:border-r-[1px] md:border-solid md:border-r-secondary  text-xl  bg-background ">
           <span className="hidden md:block">
             <BsTwitter></BsTwitter>
@@ -82,14 +82,7 @@ export default function Layout({children}) {
           </MainLink> */}
           <AiOutlineLogout onClick={mutate}></AiOutlineLogout>
         </header>
-        <div className="col-span-12 md:col-span-10  md:ml-[9rem]  p-4">
-          {children}
-        </div>
-        <div className="hidden  sm:col-span-2 sm:flex-col sm:flex mt-24 bg-slate-800 border-2 border-secondary p-4">
-          <Trends></Trends>
-
-          <Suggest></Suggest>
-        </div>
+        <div className="col-span-12  md:ml-[9rem]   md:p-2">{children}</div>
       </div>
     </>
   );
