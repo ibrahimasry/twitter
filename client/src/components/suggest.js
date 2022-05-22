@@ -58,7 +58,7 @@ function Button({user}) {
 
   return (
     <button
-      className="border hover:bg-slate-700 p-1 px-2 rounded-3xl"
+      className="border border-secondary hover:bg-slate-700 p-1 rounded-lg"
       onClick={(e) => {
         e.stopPropagation();
         mutate({_id, username});

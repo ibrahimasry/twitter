@@ -7,5 +7,5 @@ export default tw.button`p-3
                           hover:bg-secondary-300 
                            rounded-3xl 
                             disabled:opacity-75 
- 
+                           disabled:cursor-none
                             disabled:shadow-none  focus:rounded-2xl`;

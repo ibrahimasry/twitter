@@ -13,7 +13,6 @@
 }
 
 body {
-  font-family: "Mulish", sans-serif;
   background-color: rgb(var(--background));
   color: rgb(var(--neutral));
 }

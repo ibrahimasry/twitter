@@ -8,11 +8,15 @@ import TweetReaction from "./tweetReaction";
 import Model from "./model";
 import ProfilePreview from "./ProfilePreview";
 import {getDate} from "../util/helper";
+import ShowMedia from "./ShowMedia";
+import useVideo from "../hooks/useVideo";
 
 export default function TweetContent({data, isQuote}) {
   const [showDialog, setShowDialog] = React.useState(false);
   const navigate = useNavigate();
   const {tweetID} = useParams();
+  const {videoRef, isMuted, toggleMute} = useVideo();
+
   const open = (e) => {
     setShowDialog(true);
     setUsername();
@@ -95,12 +99,7 @@ export default function TweetContent({data, isQuote}) {
             )}
 
             <p className="pb-1" dangerouslySetInnerHTML={{__html: text}}></p>
-            {data.image && (
-              <img
-                src={data.image}
-                className={"w-10/12 h-8/12 rounded-lg "}
-              ></img>
-            )}
+            {data.image && ShowMedia({url: data.image})}
             {last && !data.image && (
               <div className=" p-4">
                 <ReactTinyLink
