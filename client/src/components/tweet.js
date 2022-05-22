@@ -9,13 +9,17 @@ import Model from "./model";
 import ProfilePreview from "./ProfilePreview";
 import {getDate} from "../util/helper";
 import ShowMedia from "./ShowMedia";
-import useVideo from "../hooks/useVideo";
+import OnOutsiceClick from "react-outclick";
+import {useDeleteTweet} from "../util/api";
+import {useAuth} from "../useAuth";
 
 export default function TweetContent({data, isQuote}) {
   const [showDialog, setShowDialog] = React.useState(false);
+  const [showDelete, setShowDelete] = React.useState(false);
+
   const navigate = useNavigate();
   const {tweetID} = useParams();
-  const {videoRef, isMuted, toggleMute} = useVideo();
+  const authUser = useAuth();
 
   const open = (e) => {
     setShowDialog(true);
@@ -25,15 +29,19 @@ export default function TweetContent({data, isQuote}) {
   const close = () => setShowDialog(false);
   const [username, setUsername] = useState(undefined);
   const ref = React.useRef(null);
+  const refDelete = React.useRef(null);
+  const mutate = useDeleteTweet({_id: data._id});
+
   data = {...data.owner, ...data};
   let [last, text] = getContent(data?.text);
   text = data.image && last ? data.text : text;
   const onNavigateHandler = (e, url) => {
-    e.stopPropagation();
-
     if ("tweets/" + tweetID === url) return;
     navigate("/" + url);
+    e.stopPropagation();
   };
+
+  const isOwner = authUser?.username === data.username;
   return (
     data && (
       <>
@@ -86,6 +94,42 @@ export default function TweetContent({data, isQuote}) {
               >
                 {getDate(data.createdAt)}
               </time>
+              {isOwner && (
+                <div
+                  className="!ml-[40%]  cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowDelete(true);
+                  }}
+                >
+                  <span ref={refDelete}>&#xFE19;</span>
+
+                  {showDelete && (
+                    <OnOutsiceClick onOutsideClick={() => setShowDelete(false)}>
+                      <Popover
+                        //className="relative z-50"
+                        targetRef={refDelete}
+                        position={positionDefault}
+                      >
+                        <button
+                          className="text-sm text-red-200 p-4 py-2  shadow-lg  rounded-sm  border-secondary"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            mutate();
+                            if (tweetID) {
+                              navigate("/");
+                            }
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </Popover>
+                    </OnOutsiceClick>
+                  )}
+                </div>
+              )}
             </div>
             {data.replyTo && (
               <>
@@ -117,7 +161,7 @@ export default function TweetContent({data, isQuote}) {
                   {data.quoteTo.owner.username}/tweet/
                 </Link>
               ) : (
-                <div className=" mx-auto p-4 border-2 border-solid border-secondary rounded-lg">
+                <div className="p-4 border-2 border-solid border-secondary rounded-lg">
                   <TweetContent
                     isQuote={true}
                     data={data.quoteTo}

@@ -4,6 +4,7 @@ import HashTag from "../models/hashTag.js";
 import Tweet from "../models/tweet.js";
 import User from "../models/user.js";
 import Notification from "../models/Notificaton.js";
+import {ErrorResponse} from "../errorHandler.js";
 
 export const getTrend = async (req, res) => {
   let data = await HashTag.aggregate([
@@ -314,7 +315,7 @@ export const postTweet = async (req, res) => {
         {$addToSet: {tweets: tweet._id}, content: hashTag},
 
         {upsert: true, new: true}
-      ).then(console.log);
+      );
     }
   }
   if (mentions.length) {
@@ -344,4 +345,18 @@ export const postTweet = async (req, res) => {
 
   await user.save();
   res.json({tweet, user});
+};
+
+export const deleteTweet = async (req, res, next) => {
+  const tweetId = req.params.tweetId;
+  const currUser = req.user;
+  const tweet = await Tweet.findById(tweetId);
+
+  if (!tweet) throw new ErrorResponse("no tweet to delete!", "tweet", 404);
+  if (currUser._id.toString() !== tweet.owner._id.toString())
+    throw new ErrorResponse("you should be the author!", "tweet", 404);
+
+  await Tweet.findByIdAndDelete(tweetId);
+
+  res.json({message: "done"});
 };

@@ -3,7 +3,7 @@ import {useMutation, useQuery, useQueryClient} from "react-query";
 import {queryClient} from "../AppProvider";
 import {useAuth} from "../useAuth";
 import {socket} from "../authApp";
-
+console.log(process.env.NODE_ENV);
 const baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8080"
@@ -82,6 +82,24 @@ export async function postTweet(data) {
   await queryClient.refetchQueries("getTimeLine");
 
   return res;
+}
+
+export function useDeleteTweet({_id}) {
+  const user = useAuth();
+  const deleteTweet = async () => {
+    await client.delete("/tweets/" + _id);
+
+    Promise.all([
+      queryClient.invalidateQueries(["getTweet", _id]),
+      queryClient.invalidateQueries("getTimeLine"),
+      queryClient.invalidateQueries(["getProfileLikes", user.username]),
+      queryClient.invalidateQueries(["getProfileTweets", user.username]),
+    ]);
+  };
+
+  const {mutate, isLoading, isError} = useMutation("deleteTweet", deleteTweet);
+
+  return {mutate, isLoading, isError};
 }
 
 export async function getChats(data) {

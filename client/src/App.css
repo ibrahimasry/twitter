@@ -22,6 +22,10 @@ input,
 textarea {
   background: rgb(var(--background));
 }
+input,
+textarea {
+  word-break: break-all;
+}
 a {
   color: rgb(var(--background-clickable));
 }

@@ -20,7 +20,7 @@ export default function SearchButton({onKeyHandler: search}) {
           ref={ref}
           onChange={(e) => setValue(e.target.value)}
           value={value}
-          className="rounded-3xl focus:border-secondary focus:border-2 focus:border-solid px-8 py-2 outline-none w-40 focus:w-60  transition-all "
+          className="rounded-3xl border  border-secondary  focus:border-2 p-2 pl-6  outline-none w-40 focus:w-48  transition-all "
         />
       </span>
     </form>

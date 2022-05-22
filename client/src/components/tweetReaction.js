@@ -32,7 +32,7 @@ export default function TweetReaction({tweetData: tweet, isFull}) {
 
   return (
     <>
-      <div className="flex justify-between  child:transition-all ease-in child:p-3">
+      <div className="flex space-x-[15%]  child:transition-all ease-in child:p-3">
         <span className="flex  items-center">
           <span className="p-2 rounded-full">
             <AiOutlineComment></AiOutlineComment>
