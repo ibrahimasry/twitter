@@ -43,7 +43,7 @@ export default function Home() {
       <Header title="Home"></Header>
       <div className="flex justify-between space-x-4">
         <div className="flex flex-col flex-grow ">
-          <div className="flex space-x-1 p-4  ">
+          <div className="flex space-x-1 md:p-4 p-1 ">
             <div className="w-12 h-12 flex-shrink-0">
               <img
                 className="w-full h-full rounded-full"
