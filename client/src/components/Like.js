@@ -14,6 +14,7 @@ export default function Like({tweet, openUsers}) {
     const willAnimate = !isLiked;
     setIsLiked(!isLiked);
     if (willAnimate) setAnimate("animate-heart");
+    else setAnimate("");
   });
 
   const handleLikeClicked = (e) => {
