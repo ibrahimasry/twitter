@@ -3,7 +3,7 @@ import tw from "tailwind-styled-components";
 import Suggest from "../components/suggest";
 import {logoutRequest} from "../util/api";
 import {AiOutlineLogout} from "react-icons/ai";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {useAuth} from "../useAuth";
 import useSocketEvent from "../useSocketEvent";
 import {Children, useState} from "react";
@@ -17,10 +17,13 @@ export default function Layout({children}) {
   const {mutate} = useMutation("logout", logoutRequest);
   const [currNotifications, setCurrNotifications] = useState(notifications);
   const [currMesseges, setCurrMessages] = useState(0);
+  const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   useSocketEvent("newNoftication", () =>
     setCurrNotifications((prev) => prev + 1)
   );
+
+  console.log(searchParams.get("chatId"));
 
   useSocketEvent("message", async (data) => {
     setCurrMessages((prev) => prev + 1);
