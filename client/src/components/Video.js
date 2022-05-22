@@ -54,7 +54,7 @@ export default function Video({url}) {
   };
 
   return (
-    <div className="relative border border-secondary flex-col overflow-hidden h-[35vw] w-9/12 rounded-lg bottom-2">
+    <div className="relative border border-secondary flex-col overflow-hidden h-[30vh] w-9/12 rounded-lg bottom-2">
       <video
         onDoubleClick={(e) => e.target.requestFullscreen()}
         ref={videoRef}
