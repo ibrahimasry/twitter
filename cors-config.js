@@ -1,4 +1,4 @@
-const origin = [process.env.URLPROD, process.env.URLDEV];
+export const origin = [process.env.URLPROD, process.env.URLDEV];
 export const corsOptionsProducation = {
   origin,
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],

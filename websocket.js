@@ -1,6 +1,7 @@
 import * as io from "socket.io";
 import User from "./models/user.js";
 import Chat from "./models/chat.js";
+import {origin} from "./cors-config.js";
 
 export default class WebSocket {
   constructor(app) {
@@ -71,7 +72,7 @@ export default class WebSocket {
   start(app) {
     const self = this;
     self.currSocketServer = new io.Server(app, {
-      cors: {credentials: true, origin: true},
+      cors: {credentials: true, origin},
     });
     this.handshakeMiddleware(self.currSocketServer);
     self.currSocketServer.on("connection", self.onConnnection());
