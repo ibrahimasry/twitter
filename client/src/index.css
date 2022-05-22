@@ -30,6 +30,7 @@
     width: 100% !important;
     margin: 0 auto !important;
     height: 100% !important;
+    overflow: auto;
   }
   @screen lg {
     [data-reach-dialog-overlay] > [data-reach-dialog-content] {
@@ -42,6 +43,7 @@
   [data-reach-dialog-overlay] {
     z-index: 100;
     position: relative;
+    background-color: rgb(var(--secondary), 90%) !important;
     width: 100% !important;
     height: 100% !important;
   }

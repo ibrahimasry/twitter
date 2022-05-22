@@ -64,7 +64,7 @@ export default function Video({url}) {
         muted={isMuted}
         className={"w-full h-full"}
       ></video>
-      <div className="absolute w-full bottom-0  z-50 space-x-2 flex items-baseline justify-center bg-opacity-50 bg-red-400 p-4">
+      <div className="absolute w-full bottom-0  space-x-2 flex items-baseline justify-center bg-opacity-50 bg-red-400 p-4">
         <MuteButton toggleMute={toggleMute} isMuted={isMuted} />
         <PauseButton isPlaying={isPlaying} togglePlay={togglePlay} />
         <div className="relative w-[20rem] h-3 p-3 " onClick={setTime}>
