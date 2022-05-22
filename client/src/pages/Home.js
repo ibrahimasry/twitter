@@ -80,7 +80,7 @@ export default function Home() {
             hasNextPage={hasNextPage}
           ></TimeLine>
         </div>
-        <div className="hidden h-[50vh]  md:flex-col md:flex mt-24 bg-slate-800 border-2 border-secondary p-4 space-y-5">
+        <div className="hidden h-[80vh] md:flex-col md:flex mt-24 border rounded-2xl shadow-lg border-secondary p-4 space-y-5">
           <Trends></Trends>
 
           <Suggest></Suggest>

@@ -50,9 +50,11 @@ export const getUserTweets = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
   const authUser = req.user;
-  const username = req.params.username;
+  const username = req.params?.username?.toLowerCase();
 
   const user = await User.findOne({username}).lean();
+  if (!user)
+    throw new ErrorResponse("no profile with that username", username, 404);
   if (authUser && authUser?.username !== username)
     user.isFollowing = !!(await User.findOne({
       username,

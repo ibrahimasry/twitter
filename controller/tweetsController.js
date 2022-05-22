@@ -28,7 +28,7 @@ export const getTrend = async (req, res) => {
                 {
                   $gte: [
                     "$$tweet.createdAt",
-                    new Date(Date.now() - 360000 * 24),
+                    new Date(Date.now() - 360000 * 24 * 7),
                   ],
                 },
               ],
@@ -55,7 +55,7 @@ export const getTrend = async (req, res) => {
       },
     },
   ]);
-
+  console.log(data);
   res.json(data);
 };
 

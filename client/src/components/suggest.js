@@ -10,7 +10,6 @@ export default function Suggest() {
   const navigate = useNavigate();
   useSocketEvent("follow", refetch);
   const users = data?.data;
-  console.log(users);
   const onClickHandler = (username) => navigate("/" + username);
   return (
     <div className="flex flex-col space-y-2  text-sm text-slate-400">
