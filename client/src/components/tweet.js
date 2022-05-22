@@ -30,7 +30,7 @@ export default function TweetContent({data, isQuote}) {
   const [username, setUsername] = useState(undefined);
   const ref = React.useRef(null);
   const refDelete = React.useRef(null);
-  const mutate = useDeleteTweet({_id: data._id});
+  const {mutate, isLoading} = useDeleteTweet({_id: data._id});
 
   data = {...data.owner, ...data};
   let [last, text] = getContent(data?.text);
@@ -113,7 +113,8 @@ export default function TweetContent({data, isQuote}) {
                         position={positionDefault}
                       >
                         <button
-                          className="text-sm text-red-200 p-4 py-2  shadow-lg  rounded-sm  border-secondary"
+                          disabled={isLoading}
+                          className="text-sm text-red-200 p-6 py-2  shadow-lg bg-background rounded-sm  border-secondary disabled:cursor-default"
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -123,7 +124,7 @@ export default function TweetContent({data, isQuote}) {
                             }
                           }}
                         >
-                          Delete
+                          {isLoading ? "Deleting.." : "Delete"}
                         </button>
                       </Popover>
                     </OnOutsiceClick>

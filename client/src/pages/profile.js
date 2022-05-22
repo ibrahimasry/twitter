@@ -206,23 +206,27 @@ export default function Profile() {
           </div>
         </div>
         <div className="w-full">
-          <UserTweets>
-            <Routes>
-              <Route
-                path="/media"
-                element={<ProfileTweet filterBy="image" username={username} />}
-              ></Route>
+          {user && (
+            <UserTweets>
+              <Routes>
+                <Route
+                  path="/media"
+                  element={
+                    <ProfileTweet filterBy="image" username={username} />
+                  }
+                ></Route>
 
-              <Route
-                path="/likes"
-                element={<ProfileLikes username={username} />}
-              ></Route>
-              <Route
-                index
-                element={<ProfileTweet username={username} />}
-              ></Route>
-            </Routes>
-          </UserTweets>
+                <Route
+                  path="/likes"
+                  element={<ProfileLikes username={username} />}
+                ></Route>
+                <Route
+                  index
+                  element={<ProfileTweet username={username} />}
+                ></Route>
+              </Routes>
+            </UserTweets>
+          )}{" "}
         </div>
       </div>
       {profileEditing && (

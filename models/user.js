@@ -29,6 +29,7 @@ const UserSchema = new Schema(
       default: () => "user-" + shortUUID.generate().slice(0, 8).toString(),
 
       trim: true,
+      lowercase: true,
     },
     birthDate: {
       type: String,
