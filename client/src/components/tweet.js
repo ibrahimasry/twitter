@@ -96,7 +96,7 @@ export default function TweetContent({data, isQuote}) {
               </time>
               {isOwner && (
                 <div
-                  className="!ml-[40%]  cursor-pointer"
+                  className="!ml-auto cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
