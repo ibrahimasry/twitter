@@ -11,7 +11,7 @@ export default function Header({title, goBack}) {
     return navigate("/tweets/search?query=" + value);
   };
   return (
-    <div className="col-span-1 space-x-2 p-8 flex items-center">
+    <div className="col-span-1 space-x-2 p-2 md:p-6 flex items-center">
       {goBack && (
         <GoBack
           onClick={() => {
