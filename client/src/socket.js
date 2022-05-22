@@ -4,7 +4,10 @@ import {useAuth} from "./useAuth";
 import {debounce} from "lodash";
 
 function useSocket(params) {
-  const URL = "http://localhost:8080";
+  const URL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:8080"
+      : "https://twitter2022.herokuapp.com/";
   const [socket, setSocket] = useState(null);
   const user = useAuth();
 
