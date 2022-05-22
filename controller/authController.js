@@ -32,7 +32,7 @@ export const signup = async ({body}, res) => {
   let dup = await User.findOne({email: body.email});
   if (dup) throw new ErrorResponse("email already exits", "email", 401);
 
-  const user = await User.create({
+  await User.create({
     name: body.name,
     email: body.email,
     birthDate,
@@ -71,7 +71,10 @@ export const pickUsername = async (req, res, next) => {
     body: {values},
   } = req;
 
-  const {email, username} = values;
+  let {email, username} = values;
+  email = email?.toLowerCase();
+  username = username?.toLowerCase();
+
   const user = await User.findOne({email});
   const dup = await User.findOne({username});
   if (dup) {

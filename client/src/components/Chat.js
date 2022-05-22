@@ -106,12 +106,12 @@ export default function Chat({chatId, messages, setToggle}) {
           })}
         <div ref={ref}></div>
       </div>
-      <div className="mb-2 flex  space-x-2">
-        <input
-          className="p-2 outline-none flex-1 border-2 border-solid border-secondary rounded-xl  transition-all hover:border-1  hover:border-solid"
+      <div className="mb-2 flex items-center space-x-2 fixed z-50 bottom-11 right-11">
+        <textarea
+          className="p-2 h-10 outline-none flex-1 border-2 border-solid border-secondary rounded-xl  transition-all hover:border-1  hover:border-solid"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-        ></input>
+        ></textarea>
         <button
           className="px-4 py-2 bg-secondary shadow-sm shadow-light-grey rounded-lg"
           onClick={() => {

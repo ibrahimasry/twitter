@@ -49,6 +49,11 @@ TweetSchema.pre("findOne", autoPopulateLead)
   .pre("find", autoPopulateLead)
   .pre("findById", autoPopulateLead);
 
+TweetSchema.pre("remove", async function (next) {
+  await this.model("Tweet").deleteMany({retweetData: this._id});
+  next();
+});
+
 TweetSchema.index({text: "text"});
 
 const Tweet = mongoose.model("Tweet", TweetSchema);

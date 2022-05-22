@@ -6,7 +6,7 @@ export default function Post({tweet, isQuote}) {
   if (!tweetData.text && !tweetData.image) return null;
 
   return (
-    <div className="p-2 text-lg cursor-pointer mx-auto border-b-2 border-solid border-b-secondary space-y-2">
+    <div className="p-2 w-[90%] text-lg cursor-pointer mx-auto border-b-2 border-solid border-b-secondary space-y-2">
       <>
         {tweet.isRetweet && (
           <Link to={"/" + tweet.owner.username}>

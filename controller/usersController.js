@@ -5,9 +5,11 @@ import Notification from "../models/Notificaton.js";
 export const getFollowSuggestions = async function (req, res) {
   const {_id} = req.user;
   const {followings} = await User.findById(_id);
-  const users = await User.find({_id: {$nin: [...followings, _id]}}).sort({
-    "followers.length": -1,
-  });
+  const users = await User.find({_id: {$nin: [...followings, _id]}})
+    .sort({
+      "followers.length": -1,
+    })
+    .limit(4);
   res.json(users);
 };
 

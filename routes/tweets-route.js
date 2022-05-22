@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {
+  deleteTweet,
   getHashtag,
   getReactions,
   getTimeLine,
@@ -30,6 +31,7 @@ tweetsRouter.get("/:tweetId/:reaction", catchError(getReactions));
 tweetsRouter.post("/:tweetId/retweet", catchError(postRetweet));
 
 tweetsRouter.post("/:tweetId", catchError(postReply));
+tweetsRouter.delete("/:tweetId", catchError(deleteTweet));
 
 tweetsRouter.post("/:tweetId/quote", catchError(postQuote));
 
