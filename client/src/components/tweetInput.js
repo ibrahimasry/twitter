@@ -13,6 +13,8 @@ import {AiFillDelete, AiFillPicture} from "react-icons/ai";
 import {CircularProgress, circularProgressClasses} from "@mui/material";
 import {uploadMedia} from "../upload";
 import {socket} from "../authApp";
+import ShowMedia from "./ShowMedia";
+import {convertToPixelCrop} from "react-image-crop";
 // import "draft-js/dist/Draft.css";
 
 export default function TweetInput({
@@ -45,7 +47,6 @@ export default function TweetInput({
     "postQuote",
     postQuoteRequest
   );
-  const queryClient = useQueryClient();
   const user = useAuth();
   const ref = useRef();
 
@@ -108,16 +109,13 @@ export default function TweetInput({
       socket.emit("notify", {from: user._id, to: mentions, content});
     }
   };
-
   const handleImgUpload = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     setIsUploading(true);
     setImage(undefined);
-    const res = await uploadMedia(
-      {type: "image", preset: "twitter", file},
-      setProgress
-    );
+    const type = file?.type.split("/")[0];
+    const res = await uploadMedia({type, preset: "twitter", file}, setProgress);
     setIsUploading(false);
     setImage(res);
   };
@@ -137,10 +135,9 @@ export default function TweetInput({
       (count == 1 && editorState.getLastChangeType() !== "insert-characters")
     ) {
       setToSubmit(true);
-    } else {
-      setToSubmit(false);
-    }
-  }, [editorState, count]);
+    } else if (isUploading) setToSubmit(true);
+    else setToSubmit(false);
+  }, [editorState, count, isUploading]);
   return (
     <div
       ref={refPicker}
@@ -161,11 +158,7 @@ export default function TweetInput({
       </div>
       {image && (
         <div className="relative w-6/12 h-6/12 bg-slate-500 p-4">
-          <img className="" src={image}></img>
-          <AiFillDelete
-            className="absolute top-2 left-2 "
-            onClick={() => setImage("")}
-          ></AiFillDelete>
+          {ShowMedia({url: image})}
         </div>
       )}
       <div className="flex space-x-3 px-100  py-3 relative items-center text-2xl">
@@ -182,10 +175,11 @@ export default function TweetInput({
           <label htmlFor="image">
             <input
               type="file"
-              accept="img/*"
+              accept="video/mp4 ,image/*"
               hidden
               id="image"
               onChange={handleImgUpload}
+              multiple
             ></input>
             <AiFillPicture></AiFillPicture>
           </label>
@@ -193,7 +187,6 @@ export default function TweetInput({
           <CircularProgress
             variant="determinate"
             value={progress}
-            size="1rem"
           ></CircularProgress>
         )}
         <span>{count > 100 && 100 - count}</span>
@@ -208,12 +201,11 @@ export default function TweetInput({
             <CircularProgress
               variant="determinate"
               value={100}
-              color="secondary"
             ></CircularProgress>
           )}
         </span>
         <TweetButton
-          className="!ml-auto"
+          className="!ml-auto "
           type="submit"
           disabled={toSubmit}
           onClick={handlerOnClick}

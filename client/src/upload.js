@@ -5,7 +5,7 @@ export async function uploadMedia({type, preset, file}, setProgress) {
   formData.append("upload_preset", preset);
   formData.append("file", file);
 
-  const data = await axios
+  const res = await axios
     .post(
       `https://api.cloudinary.com/v1_1/ibrahimasry/${type}/upload`,
       formData,
@@ -13,9 +13,12 @@ export async function uploadMedia({type, preset, file}, setProgress) {
         onUploadProgress,
       }
     )
-    .then((res) => res.data);
+
+    .catch(console.log);
   function onUploadProgress({loaded, total}) {
-    setProgress(Math.round(loaded / total) * 100);
+    setProgress(Math.round((loaded / total) * 100));
   }
-  return data.secure_url;
+
+  console.log(res, "resdata");
+  return res.data?.secure_url;
 }
