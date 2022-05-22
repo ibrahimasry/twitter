@@ -25,7 +25,7 @@ export default function Inbox() {
     <>
       <Header title="chat" goBack={true}></Header>
 
-      <div className="grid gap-4 grid-cols-12  h-3/4 relative">
+      <div className="grid gap-4 grid-cols-12  h-[90vh] relative">
         <div
           className={`p-2 ${
             toggle ? "block" : "hidden"

@@ -29,7 +29,7 @@ export default function Chats({chats, setChatId, onClick, isLoading}) {
       </>
     );
   return (
-    <div onClick={onClick} className="h-full overflow-y-scroll p-2 break-all ">
+    <div onClick={onClick} className="h-full overflow-y-auto p-2 break-all ">
       {chats.map((chat) => (
         <div
           onClick={() => handleOnClick(chat._id)}
