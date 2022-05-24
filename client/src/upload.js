@@ -19,6 +19,5 @@ export async function uploadMedia({type, preset, file}, setProgress) {
     setProgress(Math.round((loaded / total) * 100));
   }
 
-  console.log(res, "resdata");
   return res.data?.secure_url;
 }

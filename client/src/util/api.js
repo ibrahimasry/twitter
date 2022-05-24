@@ -3,7 +3,6 @@ import {useMutation, useQuery, useQueryClient} from "react-query";
 import {queryClient} from "../AppProvider";
 import {useAuth} from "../useAuth";
 import {socket} from "../authApp";
-console.log(process.env.NODE_ENV);
 const baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8080/api/"
@@ -142,7 +141,6 @@ export async function getLikes() {
 
 export async function getTweetLikes({_id, pageParam}) {
   const res = await client.get(`/tweets/${_id}/likes?page=${pageParam || 0}`);
-  console.log(res);
   return res?.data || [];
 }
 
@@ -199,7 +197,6 @@ export async function getSuggestionRequest(values) {
 
 export function useFollowMutation({username, _id}) {
   const {username: currUser} = useAuth();
-  console.log(username);
   const followUserRequest = async () =>
     await client.post("/users/follow", {_id});
   const {mutate} = useMutation(
@@ -240,7 +237,6 @@ export function usePostLike({tweet, willLike}, onMutate) {
   const user = useAuth();
   tweet = tweet.isRetweet ? tweet.retweetData : tweet;
   const tweetId = tweet._id;
-  console.log(tweetId);
   const apiCall = async () =>
     await client.post("/tweets/" + tweetId.toString() + "/like");
   const {mutate: likeMutate} = useMutation("usePostLike", apiCall, {

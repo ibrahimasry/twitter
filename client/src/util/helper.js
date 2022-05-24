@@ -67,6 +67,6 @@ export function getDate(date) {
   return formatDistance(tweetDate, today, {addSuffix: false})
     .replace(/hours?/, "hr")
     .replace("about", "")
-    .replace(`less than a minute`, "< m")
+    .replace(`less than a minute`, "> m")
     .replace("minutes", "m");
 }

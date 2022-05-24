@@ -55,7 +55,6 @@ export const getTrend = async (req, res) => {
       },
     },
   ]);
-  console.log(data);
   res.json(data);
 };
 

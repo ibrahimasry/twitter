@@ -49,8 +49,6 @@ export default function Video({url}) {
     videoRef.current.currentTime =
       (currWidth / e.target.getBoundingClientRect().width).toFixed(4) *
       videoRef.current.duration;
-
-    console.log(videoRef.current.currentTime);
   };
 
   return (
