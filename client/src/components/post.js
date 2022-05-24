@@ -3,7 +3,7 @@ import TweetContent from "./TweetContent/TweetContent";
 import {useLocation, useNavigate, Navigate, Link} from "react-router-dom";
 export default function Post({tweet, isQuote}) {
   let tweetData = tweet.isRetweet ? tweet.retweetData : tweet;
-  if (!tweetData.text && !tweetData.image) return null;
+  if (!tweetData?.text && !tweetData?.image) return null;
 
   return (
     <div className="p-2  text-lg cursor-pointer mx-auto border-b-2 border-solid border-b-secondary space-y-2">

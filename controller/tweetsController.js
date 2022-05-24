@@ -361,8 +361,19 @@ export const deleteTweet = async (req, res, next) => {
   if (!tweet) throw new ErrorResponse("no tweet to delete!", "tweet", 404);
   if (currUser._id.toString() !== tweet.owner._id.toString())
     throw new ErrorResponse("you should be the author!", "tweet", 404);
+  const parentId = tweet.replyTo?._id;
+  if (parentId)
+    await Tweet.findByIdAndUpdate(
+      {_id: parentId},
+      {$pull: {replies: {reply: tweetId}}}
+    );
 
-  await Tweet.findByIdAndDelete(tweetId);
+  Promise.all([
+    User.updateMany({retweets: tweetId}, {$pull: {retweets: tweetId}}),
+    User.updateMany({likes: tweetId}, {$pull: {likes: tweetId}}),
+
+    Tweet.findByIdAndDelete(tweetId),
+  ]);
 
   res.json({message: "done"});
 };

@@ -93,7 +93,7 @@ export function useDeleteTweet({_id}) {
       queryClient.invalidateQueries(["getTweet", _id]),
       queryClient.invalidateQueries("getTimeLine"),
       queryClient.invalidateQueries(["getProfileLikes", user.username]),
-      queryClient.invalidateQueries(["getProfileTweets", user.username]),
+      queryClient.invalidateQueries(["getProfileTweets"]),
     ]);
   };
 

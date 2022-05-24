@@ -35,9 +35,11 @@ export function isAutharized(id) {
 }
 export function serializeTweets(tweets = [], req) {
   for (let tweet of tweets) {
-    if (tweet.isRetweet) {
+    if (tweet?.isRetweet) {
       tweet = tweet.retweetData;
     }
+    if (!tweet) continue;
+
     if (tweet.likes.find((like) => req.user._id.toString() === like.toString()))
       tweet.alreadyLike = true;
     else tweet.alreadyLike = false;
@@ -48,9 +50,9 @@ export function serializeTweets(tweets = [], req) {
     )
       tweet.alreadyRetweet = true;
     else tweet.alreadyRetweet = false;
-    tweet.likes = tweet.likes?.length || 0;
-    tweet.retweets = tweet.retweets?.length || 0;
+    tweet.likes = tweet?.likes?.length || 0;
+    tweet.retweets = tweet?.retweets?.length || 0;
   }
 
-  return tweets;
+  return tweets.filter(Boolean);
 }
