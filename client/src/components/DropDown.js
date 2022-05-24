@@ -86,9 +86,7 @@ export default function DropDown({setChatId, setNewChat}) {
                 setInputItems([]);
               }}
               onKeyDown={(e) => {
-                console.log(e.target, "here");
                 if (e.code !== 13) return;
-                console.log("here");
                 setUsers([...users, item]);
                 setInputValue("");
                 setInputItems([]);

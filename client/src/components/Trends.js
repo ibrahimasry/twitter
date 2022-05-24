@@ -7,7 +7,6 @@ function Trends() {
   const {data} = useQuery("getTrend", getTrends);
   const trends = data?.data || [];
 
-  console.log(data);
   return (
     <div>
       {trends.length ? (

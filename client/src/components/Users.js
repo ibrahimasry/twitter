@@ -10,7 +10,6 @@ export default function Users({title, _id, apiCall, closeUsers}) {
     apiProps: {_id},
     apiCallId: _id,
   });
-  console.log(title, _id, apiCall.name);
   let renderUser = (user, j, i) => {
     return <UserItem key={j} {...user}></UserItem>;
   };

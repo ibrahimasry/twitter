@@ -14,7 +14,6 @@ export class ErrorResponse extends Error {
 }
 export const errorHandler = (err, req, res, next) => {
   let error = {...err};
-  console.log(error, "hereeeee");
   error.message = err.message;
 
   // Log to console for dev
@@ -37,7 +36,6 @@ export const errorHandler = (err, req, res, next) => {
     const message = Object.values(err.errors).map((val) => val.message);
     error = new ErrorResponse(message, 400);
   }
-  console.log("hereeeee");
   res.status(error.statusCode || 500).json({
     success: false,
     error,

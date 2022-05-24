@@ -18,7 +18,6 @@ export const getUserLikes = async (req, res) => {
     .limit(limit)
     .lean();
   if (!data || data.length == 0) return res.json({});
-  console.log(data);
   const tweets = serializeTweets(data, req);
 
   return res.json({data: tweets, nextCursor: page + 1});
