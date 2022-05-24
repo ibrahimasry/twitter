@@ -16,7 +16,12 @@ export default function DeleteTweetRepresenter(props) {
       <span ref={refDelete}>&#xFE19;</span>
 
       {showDelete && (
-        <OnOutsiceClick onOutsideClick={() => setShowDelete(false)}>
+        <OnOutsiceClick
+          onOutsideClick={(e) => {
+            e.stopPropagation();
+            setShowDelete(false);
+          }}
+        >
           <Popover
             //className="relative z-50"
             targetRef={refDelete}
