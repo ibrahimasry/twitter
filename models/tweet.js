@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import mongodbErrorHandler from "mongoose-mongodb-errors";
+import User from "./user.js";
 const {Schema} = mongoose;
 const TweetSchema = new Schema(
   {
@@ -49,8 +50,22 @@ TweetSchema.pre("findOne", autoPopulateLead)
   .pre("find", autoPopulateLead)
   .pre("findById", autoPopulateLead);
 
-TweetSchema.pre("remove", async function (next) {
+TweetSchema.pre("findByIdAndDelete", async (next) => {
+  const parentId = this.replyTo;
+  console.log(parentId, "hereeee");
+
   await this.model("Tweet").deleteMany({retweetData: this._id});
+  if (parentId)
+    await Tweet.findByIdAndUpdate(
+      {_id: parentId},
+      {$pull: {"replies.reply": this._id}}
+    );
+
+  await User.findByIdAndUpdate(
+    {retweets: this._id},
+    {$pull: {retweets: this._id}}
+  );
+  await User.findByIdAndUpdate({likes: this._id}, {$pull: {likes: this._id}});
 
   next();
 });

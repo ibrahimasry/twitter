@@ -16,26 +16,19 @@ export default function DeleteTweetRepresenter(props) {
       <span ref={refDelete}>&#xFE19;</span>
 
       {showDelete && (
-        <OnOutsiceClick
-          onOutsideClick={(e) => {
-            e.stopPropagation();
-            setShowDelete(false);
-          }}
+        <Popover
+          className="relative z-50"
+          targetRef={refDelete}
+          position={positionDefault}
         >
-          <Popover
-            //className="relative z-50"
-            targetRef={refDelete}
-            position={positionDefault}
+          <button
+            disabled={isLoading}
+            className="text-lg w-18 h-18 text-red-200 p-8 py-4  shadow-lg bg-background rounded-sm  border-secondary disabled:cursor-default"
+            onClick={deleteTweetHanlder}
           >
-            <button
-              disabled={isLoading}
-              className="text-lg text-red-200 p-6 py-2  shadow-lg bg-background rounded-sm  border-secondary disabled:cursor-default"
-              onClick={deleteTweetHanlder}
-            >
-              {isLoading ? "Deleting.." : "Delete"}
-            </button>
-          </Popover>
-        </OnOutsiceClick>
+            {isLoading ? "Deleting.." : "Delete"}
+          </button>
+        </Popover>
       )}
     </div>
   );

@@ -12,7 +12,7 @@ export default function TweetContent({data: tweet, isQuote}) {
   const [username, setUsername] = useState(undefined);
 
   const [showDialog, setShowDialog] = React.useState(false);
-
+  if (!tweet) return;
   const open = (e) => {
     setShowDialog(true);
     setUsername();
