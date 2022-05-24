@@ -15,7 +15,7 @@ const {
 export default function SignIn() {
   const {mutate, isError, error} = useMutation("login", loginRequest);
   function _handleSubmit(values, actions) {
-    mutate(values);
+    mutate(values, {onError: console.log});
     actions.setSubmitting(false);
   }
 
@@ -44,7 +44,7 @@ export default function SignIn() {
           </div>
           {isError && (
             <span className="text-red-400 text-sm">
-              {error.response.data.error.message}
+              {error.response.data.error?.message}
             </span>
           )}
         </Form>

@@ -84,11 +84,11 @@ app.use(hpp());
 // Set static folder
 app.use(express.static(path.join(path.resolve(), "/client/build")));
 
-app.use("/user", userRouter);
-app.use("/tweets", tweetsRouter);
-app.use("/users", usersRouter);
-app.use("/", authRouter);
-app.use("/", isAuth, chatRouter);
+app.use("/api/user", userRouter);
+app.use("/api/tweets", tweetsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/", authRouter);
+app.use("/api/", isAuth, chatRouter);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(path.resolve(), "client", "build", "index.html"));

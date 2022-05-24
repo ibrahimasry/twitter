@@ -210,11 +210,15 @@ async function sendNotification(from, to, content) {
 export const postLike = async (req, res) => {
   const user = req.user;
   let curr = await Tweet.findOne({
-    _id: req.params.tweetId,
+    _id: new mongoose.Types.ObjectId(req.params.tweetId),
+  });
+  if (!curr) throw new ErrorResponse("no tweet with that id", "tweet", 404);
+
+  curr = await Tweet.findOne({
+    _id: new mongoose.Types.ObjectId(req.params.tweetId),
     likes: req.user._id,
   });
 
-  if (!curr) throw new ErrorResponse("no tweet with that id", "tweet", 404);
   const op = curr ? "$pull" : "$push";
   curr = await Tweet.findOneAndUpdate(
     {_id: req.params.tweetId},
