@@ -213,6 +213,8 @@ export const postLike = async (req, res) => {
     _id: req.params.tweetId,
     likes: req.user._id,
   });
+
+  if (!curr) throw new ErrorResponse("no tweet with that id", "tweet", 404);
   const op = curr ? "$pull" : "$push";
   curr = await Tweet.findOneAndUpdate(
     {_id: req.params.tweetId},

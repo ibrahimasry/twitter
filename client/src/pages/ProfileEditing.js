@@ -82,6 +82,7 @@ export default function ProfileEditing({close}) {
         navigate("/" + data.data.user.username);
         if (close) close();
       },
+      onError: (e) => console.log(e),
     });
   }
   return (

@@ -13,7 +13,7 @@ import OnOutsiceClick from "react-outclick";
 import {useDeleteTweet} from "../util/api";
 import {useAuth} from "../useAuth";
 
-export default function TweetContent({data, isQuote}) {
+export default function TweetContent({data: tweet, isQuote}) {
   const [showDialog, setShowDialog] = React.useState(false);
   const [showDelete, setShowDelete] = React.useState(false);
 
@@ -30,33 +30,34 @@ export default function TweetContent({data, isQuote}) {
   const [username, setUsername] = useState(undefined);
   const ref = React.useRef(null);
   const refDelete = React.useRef(null);
-  const {mutate, isLoading} = useDeleteTweet({_id: data._id});
+  const {mutate, isLoading} = useDeleteTweet({_id: tweet._id});
 
-  data = {...data.owner, ...data};
-  let [last, text] = getContent(data?.text);
-  text = data.image && last ? data.text : text;
+  tweet = {...tweet.owner, ...tweet};
+  //get the last link typed
+  let [last, text] = getContent(tweet?.text);
+  text = tweet.image && last ? tweet.text : text;
   const onNavigateHandler = (e, url) => {
     if ("tweets/" + tweetID === url) return;
     navigate("/" + url);
     e.stopPropagation();
   };
 
-  const isOwner = authUser?.username === data.username;
+  const isOwner = authUser?.username === tweet.username;
   return (
-    data && (
+    tweet && (
       <>
         <div
           className="flex flex-row flex-wrap flex-grow shrink-0 space-x-1"
-          onClick={(e) => onNavigateHandler(e, "tweets/" + data._id)}
+          onClick={(e) => onNavigateHandler(e, "tweets/" + tweet._id)}
         >
-          <div onMouseOut={close} onMouseOver={(e) => open(e, data.username)}>
+          <div onMouseOut={close} onMouseOver={(e) => open(e, tweet.username)}>
             <span
-              onClick={(e) => onNavigateHandler(e, data.username)}
+              onClick={(e) => onNavigateHandler(e, tweet.username)}
               ref={ref}
               className="w-12 h-12  cursor-pointer rounded-full"
             >
               <img
-                src={data.avatar}
+                src={tweet.avatar}
                 className="w-12 h-12  block object-cover rounded-full "
               ></img>
             </span>
@@ -67,7 +68,7 @@ export default function TweetContent({data, isQuote}) {
                 targetRef={ref}
                 position={positionDefault}
               >
-                <ProfilePreview username={data.username}></ProfilePreview>{" "}
+                <ProfilePreview username={tweet.username}></ProfilePreview>{" "}
               </Popover>
             )}
           </div>
@@ -75,24 +76,24 @@ export default function TweetContent({data, isQuote}) {
           <div className="space-y-1 flex-grow shrink-0 basis-3/4 break-all">
             <div className="flex  space-x-2 items-baseline">
               <span
-                onClick={(e) => onNavigateHandler(e, data.username)}
+                onClick={(e) => onNavigateHandler(e, tweet.username)}
                 className="space-x-2 cursor-pointer"
               >
                 <span className="  text-sm font-semibold  ">
-                  @{data.name.slice(0, 9)}
-                  {data.name.length > 8 && "..."}
+                  @{tweet.name.slice(0, 9)}
+                  {tweet.name.length > 8 && "..."}
                 </span>
                 <span className=" text-sm text-extra-light-grey ">
-                  {data.username.slice(0, 9)}
-                  {data.username.length > 8 && "..."}
+                  {tweet.username.slice(0, 9)}
+                  {tweet.username.length > 8 && "..."}
                 </span>
               </span>
               <time
-                dateTime={data.createdAt}
-                title={new Date(data.createdAt).toLocaleDateString()}
+                dateTime={tweet.createdAt}
+                title={new Date(tweet.createdAt).toLocaleDateString()}
                 className="mt-1.5 text-xs   relative "
               >
-                {getDate(data.createdAt)}
+                {getDate(tweet.createdAt)}
               </time>
               {isOwner && (
                 <div
@@ -132,20 +133,20 @@ export default function TweetContent({data, isQuote}) {
                 </div>
               )}
             </div>
-            {data.replyTo && (
+            {tweet.replyTo && (
               <>
                 <span className="text-[10px] ">replying to</span>
-                <Link to={"/" + data.replyTo.owner.username}>
+                <Link to={"/" + tweet.replyTo.owner.username}>
                   <span className="text-xs ml-1">
-                    @{data.replyTo?.owner.username}
+                    @{tweet.replyTo?.owner.username}
                   </span>
                 </Link>
               </>
             )}
 
             <p className="pb-1" dangerouslySetInnerHTML={{__html: text}}></p>
-            {data.image && ShowMedia({url: data.image})}
-            {last && !data.image && (
+            {tweet.image && ShowMedia({url: tweet.image})}
+            {last && !tweet.image && (
               <div className=" p-4">
                 <ReactTinyLink
                   cardSize="small"
@@ -155,21 +156,21 @@ export default function TweetContent({data, isQuote}) {
                 ></ReactTinyLink>
               </div>
             )}
-            {!!data.quoteTo &&
+            {!!tweet.quoteTo &&
               (isQuote ? (
-                <Link to={`tweets/${data.quoteTo._id}`}>
+                <Link to={`tweets/${tweet.quoteTo._id}`}>
                   {" "}
-                  {data.quoteTo.owner.username}/tweet/
+                  {tweet.quoteTo.owner.username}/tweet/
                 </Link>
               ) : (
                 <div className="p-4 border-2 border-solid border-secondary rounded-lg">
                   <TweetContent
                     isQuote={true}
-                    data={data.quoteTo}
+                    data={tweet.quoteTo}
                   ></TweetContent>
                 </div>
               ))}
-            {!isQuote && <TweetReaction tweetData={data}></TweetReaction>}
+            {!isQuote && <TweetReaction tweetData={tweet}></TweetReaction>}
           </div>
         </div>
       </>

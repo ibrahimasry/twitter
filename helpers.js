@@ -1,3 +1,5 @@
+import {ErrorResponse} from "./errorHandler.js";
+
 export function getMentions(text) {
   return Array.from(
     new Set(text.match(/@\S+/gi)?.map((curr) => curr.slice(1))) || []
@@ -18,7 +20,19 @@ export function catchError(fn) {
 export function notFound(req, res, next) {
   return res.status(404).send({message: "Not Found"});
 }
+export function isAuth(req, res, next) {
+  if (!req.user) throw new ErrorResponse("you are not login", "user", 403);
 
+  next();
+}
+
+export function isAutharized(id) {
+  return (req, res, next) => {
+    isAuth();
+    if (req.user._id.toString() !== id.toString())
+      throw new ErrorResponse("you are allowed to acess this", "user", 403);
+  };
+}
 export function serializeTweets(tweets = [], req) {
   for (let tweet of tweets) {
     if (tweet.isRetweet) {

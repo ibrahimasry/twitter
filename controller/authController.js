@@ -2,6 +2,8 @@ import {ErrorResponse} from "../errorHandler.js";
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import sendEmail from "../mail.js";
+import jwt from "jsonwebtoken";
+const {sign, verify} = jwt;
 export const login = async (req, res) => {
   const {username, password} = req.body;
   const email = username;
@@ -19,8 +21,10 @@ export const login = async (req, res) => {
   if (!isValidPass) return res.status(404).json({message: "password is wrong"});
   req.session.regenerate(function (err) {
     if (err) next(err);
-
-    req.session.user = user._id;
+    const token = sign({id: user._id}, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+    req.session.token = token;
     res.json({user});
   });
 };
@@ -92,8 +96,10 @@ export const pickUsername = async (req, res, next) => {
   await user.save();
   req.session.regenerate(function (err) {
     if (err) next(err);
-
-    req.session.user = user._id;
+    const token = sign({id: user._id}, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+    req.session.token = token;
     res.json({user});
   });
 };

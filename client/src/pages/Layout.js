@@ -23,7 +23,6 @@ export default function Layout({children}) {
     setCurrNotifications((prev) => prev + 1)
   );
 
-  console.log(searchParams.get("chatId"));
 
   useSocketEvent("message", async (data) => {
     setCurrMessages((prev) => prev + 1);
