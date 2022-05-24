@@ -24,7 +24,7 @@ export default function DeleteTweetRepresenter(props) {
           >
             <button
               disabled={isLoading}
-              className="text-sm text-red-200 p-6 py-2  shadow-lg bg-background rounded-sm  border-secondary disabled:cursor-default"
+              className="text-lg text-red-200 p-6 py-2  shadow-lg bg-background rounded-sm  border-secondary disabled:cursor-default"
               onClick={deleteTweetHanlder}
             >
               {isLoading ? "Deleting.." : "Delete"}
