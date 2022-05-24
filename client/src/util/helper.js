@@ -66,5 +66,7 @@ export function getDate(date) {
   const tweetDate = utcToZonedTime(date, timezone);
   return formatDistance(tweetDate, today, {addSuffix: false})
     .replace(/hours?/, "hr")
-    .replace("about", "");
+    .replace("about", "")
+    .replace(`less than a minute`, " < ")
+    .replace("minutes", "m");
 }

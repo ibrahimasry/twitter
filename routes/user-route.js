@@ -8,11 +8,11 @@ import {
   getUserLikes,
   getUserTweets,
 } from "../controller/userController.js";
-import {catchError} from "../helpers.js";
+import {catchError, isAuth, isAutharized} from "../helpers.js";
 
 export let userRouter = Router();
 
-userRouter.post("/profile", catchError(editCurrProfile));
+userRouter.post("/profile", isAuth, catchError(editCurrProfile));
 
 userRouter.get("/profile/:id/:path", catchError(getFriendshipData));
 

@@ -51,6 +51,7 @@ TweetSchema.pre("findOne", autoPopulateLead)
 
 TweetSchema.pre("remove", async function (next) {
   await this.model("Tweet").deleteMany({retweetData: this._id});
+
   next();
 });
 

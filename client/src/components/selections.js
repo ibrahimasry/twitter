@@ -4,7 +4,7 @@ import {useField} from "formik";
 import signUpModel from "../form/signUpModel";
 export default function Selections({labelId, items, onChangeHandler, ...rest}) {
   const [field, _, fieldHelper] = useField({name: labelId});
-  console.log(field);
+ 
   return (
     <Listbox
       className="h-1/10 "

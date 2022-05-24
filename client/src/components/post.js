@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import TweetContent from "./tweet";
+import TweetContent from "./TweetContent/TweetContent";
 import {useLocation, useNavigate, Navigate, Link} from "react-router-dom";
 export default function Post({tweet, isQuote}) {
   let tweetData = tweet.isRetweet ? tweet.retweetData : tweet;

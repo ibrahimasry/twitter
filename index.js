@@ -21,10 +21,10 @@ import {authRouter} from "./routes/auth-route.js";
 import {chatRouter} from "./routes/chat-route.js";
 import WebSocket from "./websocket.js";
 import morgan from "morgan";
-import {getCurrentUser} from "./controller/userController.js";
-import {catchError} from "./helpers.js";
+import jwt from "jsonwebtoken";
 import "./models/Notificaton.js";
 import "./models/chat.js";
+import {isAuth} from "./helpers.js";
 
 const app = express();
 
@@ -38,11 +38,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(session());
 
 app.use(async (req, res, next) => {
-  if (req.session?.user == false) {
+  if (!req.session?.token) {
+    req.user = null;
     return next();
   }
-  req.user = await User.findById(req.session.user);
-  return next();
+  let token = req.session.token;
+  try {
+    // Verify token
+    const {verify} = jwt;
+
+    const decoded = verify(token, process.env.JWT_SECRET);
+
+    req.user = await User.findById(decoded.id);
+
+    next();
+  } catch (err) {
+    return next(new ErrorResponse("Not authorized to access this route", 401));
+  }
 });
 
 if (true || process.env.NODE_ENV === "development") {
@@ -76,7 +88,7 @@ app.use("/user", userRouter);
 app.use("/tweets", tweetsRouter);
 app.use("/users", usersRouter);
 app.use("/", authRouter);
-app.use("/", chatRouter);
+app.use("/", isAuth, chatRouter);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(path.resolve(), "client", "build", "index.html"));
