@@ -5,7 +5,7 @@ import {useAuth} from "../useAuth";
 import {usePostLike} from "../util/api";
 
 export default function Like({tweet, openUsers}) {
-  console.log(tweet.likes);
+  console.log(tweet);
   const [isLiked, setIsLiked] = useState(tweet.alreadyLike);
   const [count, setCount] = useState(tweet.likes);
   const [animate, setAnimate] = useState("");

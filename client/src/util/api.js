@@ -6,8 +6,8 @@ import {socket} from "../authApp";
 console.log(process.env.NODE_ENV);
 const baseURL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:8080"
-    : "https://twitter2022.herokuapp.com/";
+    ? "http://localhost:8080/api/"
+    : "https://twitter2022.herokuapp.com/api";
 const client = axios.create({
   baseURL,
   withCredentials: true,
@@ -240,6 +240,7 @@ export function usePostLike({tweet, willLike}, onMutate) {
   const user = useAuth();
   tweet = tweet.isRetweet ? tweet.retweetData : tweet;
   const tweetId = tweet._id;
+  console.log(tweetId);
   const apiCall = async () =>
     await client.post("/tweets/" + tweetId.toString() + "/like");
   const {mutate: likeMutate} = useMutation("usePostLike", apiCall, {
