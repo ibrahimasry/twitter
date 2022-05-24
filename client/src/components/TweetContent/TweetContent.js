@@ -22,7 +22,7 @@ export default function TweetContent({data: tweet, isQuote}) {
   tweet = {...tweet.owner, ...tweet};
   //get the last link typed
   let [last, text] = getContent(tweet?.text);
-  text = tweet.image && last ? tweet.text : text;
+  last = tweet.media && last ? tweet.media : last;
   const onNavigateHandler = (e, url) => {
     if ("tweets/" + tweetID === url) return;
     navigate("/" + url);

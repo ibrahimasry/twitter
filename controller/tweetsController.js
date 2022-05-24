@@ -281,7 +281,7 @@ export const getHashtag = async (req, res) => {
   let data = await HashTag.findOne({content: hashTag})
     .populate({
       path: "tweets",
-      select: "text createdAt image likes retweets",
+      select: "text createdAt media likes retweets",
       options: {
         skip,
         limit,

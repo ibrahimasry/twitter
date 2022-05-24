@@ -212,7 +212,7 @@ export default function Profile() {
                 <Route
                   path="/media"
                   element={
-                    <ProfileTweet filterBy="image" username={username} />
+                    <ProfileTweet filterBy="media" username={username} />
                   }
                 ></Route>
 

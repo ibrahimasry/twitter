@@ -35,7 +35,7 @@ export default function TweetContent({data: tweet, isQuote}) {
   tweet = {...tweet.owner, ...tweet};
   //get the last link typed
   let [last, text] = getContent(tweet?.text);
-  text = tweet.image && last ? tweet.text : text;
+  text = tweet.media && last ? tweet.text : text;
   const onNavigateHandler = (e, url) => {
     if ("tweets/" + tweetID === url) return;
     navigate("/" + url);
@@ -145,8 +145,8 @@ export default function TweetContent({data: tweet, isQuote}) {
             )}
 
             <p className="pb-1" dangerouslySetInnerHTML={{__html: text}}></p>
-            {tweet.image && ShowMedia({url: tweet.image})}
-            {last && !tweet.image && (
+            {tweet.media && ShowMedia({url: tweet.media})}
+            {last && !tweet.media && (
               <div className=" p-4">
                 <ReactTinyLink
                   cardSize="small"
