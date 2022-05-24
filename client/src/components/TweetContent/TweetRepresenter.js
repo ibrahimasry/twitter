@@ -92,8 +92,8 @@ export default function TweetRepresenter(props) {
             )}
 
             <p className="pb-1" dangerouslySetInnerHTML={{__html: text}}></p>
-            {tweet.image && ShowMedia({url: tweet.image})}
-            {last && !tweet.image && (
+            {tweet.media && ShowMedia({url: tweet.media})}
+            {last && !tweet.media && (
               <div className=" p-4">
                 <ReactTinyLink
                   cardSize="small"

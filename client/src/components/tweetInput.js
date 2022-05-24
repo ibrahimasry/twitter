@@ -14,8 +14,6 @@ import {CircularProgress, circularProgressClasses} from "@mui/material";
 import {uploadMedia} from "../upload";
 import {socket} from "../authApp";
 import ShowMedia from "./ShowMedia";
-import {convertToPixelCrop} from "react-image-crop";
-// import "draft-js/dist/Draft.css";
 
 export default function TweetInput({
   tweet,
@@ -32,7 +30,7 @@ export default function TweetInput({
 
   const [chosenEmoji, setChosenEmoji] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
-  const [image, setImage] = useState();
+  const [media, setMedia] = useState();
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [placeHolder, setPlaceHolder] = useState(
@@ -66,8 +64,8 @@ export default function TweetInput({
     if (toSubmit === true) return;
     let text = editorState.getCurrentContent().getPlainText();
     const mentions = getMentions(text);
-    let value = {text, image};
-    setImage(undefined);
+    let value = {text, media};
+    setMedia(undefined);
     let content = "";
     setCount(0);
     if (isQuote) {
@@ -113,11 +111,11 @@ export default function TweetInput({
     e.preventDefault();
     const file = e.target.files[0];
     setIsUploading(true);
-    setImage(undefined);
+    setMedia(undefined);
     const type = file?.type.split("/")[0];
     const res = await uploadMedia({type, preset: "twitter", file}, setProgress);
     setIsUploading(false);
-    setImage(res);
+    setMedia(res);
   };
 
   const onChangeHandler = (e) => {
@@ -156,9 +154,9 @@ export default function TweetInput({
           className="resize-none  h-24"
         ></Editor>
       </div>
-      {image && (
-        <div className="relative w-6/12 h-6/12 bg-slate-500 p-4">
-          {ShowMedia({url: image})}
+      {media && (
+        <div className="relative w-6/12 h-6/12 bg-slate-500 p-1">
+          {ShowMedia({url: media})}
         </div>
       )}
       <div className="flex space-x-3 px-100  py-3 relative items-center text-2xl">
@@ -172,12 +170,12 @@ export default function TweetInput({
           </div>
         )}
         {!isUploading ? (
-          <label htmlFor="image">
+          <label htmlFor="media">
             <input
               type="file"
               accept="video/mp4 ,image/*"
               hidden
-              id="image"
+              id="media"
               onChange={handleImgUpload}
               multiple
             ></input>

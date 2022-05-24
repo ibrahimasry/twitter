@@ -75,6 +75,7 @@ export async function searchUsers(data) {
 }
 
 export async function postTweet(data) {
+  console.log(data);
   const res = await client.post("/tweets", data);
   await queryClient.invalidateQueries("getProfileLikes");
   await queryClient.invalidateQueries("getProfileTweets");
