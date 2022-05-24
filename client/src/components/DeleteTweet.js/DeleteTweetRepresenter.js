@@ -1,6 +1,6 @@
 import {useRef} from "react";
-import OnOutsiceClick from "react-outclick";
 import Popover, {positionDefault} from "@reach/popover";
+import useClickOut from "../../hooks/useClickOut";
 
 export default function DeleteTweetRepresenter(props) {
   const refDelete = useRef();
@@ -11,8 +11,16 @@ export default function DeleteTweetRepresenter(props) {
     showDeleteBotton,
     deleteTweetHanlder,
   } = props;
+  const ref = useClickOut((e) => {
+    e.stopPropagation();
+    setShowDelete(false);
+  });
   return (
-    <div className="!ml-auto cursor-pointer" onClick={showDeleteBotton}>
+    <div
+      ref={ref}
+      className="!ml-auto cursor-pointer"
+      onClick={showDeleteBotton}
+    >
       <span ref={refDelete}>&#xFE19;</span>
 
       {showDelete && (
