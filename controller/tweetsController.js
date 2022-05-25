@@ -274,7 +274,8 @@ export const searchTweets = async (req, res) => {
 };
 
 export const getHashtag = async (req, res) => {
-  const hashTag = req.params.hashtag;
+  const hashTag = req.params.hashtag?.toLowerCase();
+  console.log(hashTag);
   const page = Number(req.query.page) || 0;
   const limit = 4;
   const skip = page * limit;
@@ -287,13 +288,12 @@ export const getHashtag = async (req, res) => {
         limit,
         sort: "-createdAt",
       },
-
-      populate: {
-        path: "owner",
-      },
     })
+    .populate("tweets.owner")
     .select("tweets -_id")
     .lean();
+
+  console.log(data);
   data = data?.tweets || [];
   data = serializeTweets(data, req);
 
@@ -308,6 +308,7 @@ export const postTweet = async (req, res) => {
   const user = req.user;
   const value = req.body.value;
   const tweet = await Tweet.create({...value, owner: user._id});
+
   const mentions = getMentions(value.text);
   const hashTags = getHashTags(value.text);
 
@@ -320,9 +321,10 @@ export const postTweet = async (req, res) => {
         {$addToSet: {tweets: tweet._id}, content: hashTag},
 
         {upsert: true, new: true}
-      );
+      ).then(() => console.log());
     }
   }
+
   if (mentions.length) {
     let users = await User.find({username: {$in: mentions}}).select(
       "_id username"

@@ -1,16 +1,15 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Link, useParams} from "react-router-dom";
 import Replies from "../components/replies";
-import TweetContent from "../components/TweetContent";
-import TweetReaction from "../components/tweetReaction";
-import {useQuery, useQueryClient, refetch} from "react-query";
+import TweetContent from "../components/TweetContent/TweetContent";
+import {useQuery} from "react-query";
 import {getTweetRequest} from "../util/api";
 import TweetInput from "../components/tweetInput";
 import Header from "../components/Header";
 
 export default function FullTweet() {
   const {tweetID} = useParams();
-  const {data, refetch} = useQuery(["getTweet", tweetID], () =>
+  const {data} = useQuery(["getTweet", tweetID], () =>
     getTweetRequest(tweetID)
   );
   if (!data) return;

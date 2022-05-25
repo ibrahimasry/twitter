@@ -18,10 +18,11 @@ export default function DeleteTweet({_id}) {
     e.stopPropagation();
     mutate();
     if (tweetID) {
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 300);
     }
   };
-
   const props = {
     showDelete,
     setShowDelete,
