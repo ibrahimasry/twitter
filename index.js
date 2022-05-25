@@ -25,7 +25,6 @@ import jwt from "jsonwebtoken";
 import "./models/Notificaton.js";
 import "./models/chat.js";
 import {isAuth} from "./helpers.js";
-import {wakeDyno, wakeDynos} from "heroku-keep-awake";
 
 const app = express();
 
@@ -95,11 +94,11 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(path.resolve(), "client", "build", "index.html"));
 });
 
-let server = http.createServer(app);
+let server = http.createServer(app, () => {
+  wakeDyno("https://twitter2022.herokuapp.com");
+});
 new WebSocket(server);
 
 app.use(errorHandler);
 
-server.listen(process.env.PORT || 8080, () => {
-  wakeDyno("https://twitter2022.herokuapp.com");
-});
+server.listen(process.env.PORT || 8080);
