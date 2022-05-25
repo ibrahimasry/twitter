@@ -4,6 +4,7 @@ import {BsMicMute, BsPauseCircle, BsSoundwave} from "react-icons/bs";
 import {FaPlayCircle} from "react-icons/fa";
 import {LinearProgress} from "@mui/material";
 import {vi} from "date-fns/locale";
+import {useMediaQuery} from "react-responsive";
 
 export default function Video({url}) {
   const {
@@ -14,12 +15,14 @@ export default function Video({url}) {
     toggleMute,
     setPlaying,
     progress,
-    setProgress,
   } = useVideo();
+
+  const isPortrait = useMediaQuery({query: "(orientation: portrait)"});
+
   useEffect(() => {
     const options = {
       rootMargin: "0px",
-      threshold: [0.9, 1],
+      threshold: [0.8, 1],
     };
 
     function playVideo(entries) {
@@ -52,7 +55,11 @@ export default function Video({url}) {
   };
 
   return (
-    <div className="relative  border border-secondary flex-col overflow-hidden h-[30vh] w-9/12 rounded-lg ">
+    <div
+      className={`relative  border border-secondary flex-col overflow-hidden ${
+        isPortrait ? " h-[30vh]" : "h-[50vh]"
+      } w-9/12 rounded-lg `}
+    >
       <video
         onDoubleClick={(e) => e.target.requestFullscreen()}
         ref={videoRef}
