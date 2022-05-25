@@ -57,7 +57,7 @@ export default function Video({url}) {
   return (
     <div
       className={`relative  border border-secondary flex-col overflow-hidden ${
-        isPortrait ? " h-[30vh]" : "h-[50vh]"
+        isPortrait ? " h-[30vh]" : "h-[70vh]"
       } w-9/12 rounded-lg `}
     >
       <video
