@@ -6,9 +6,11 @@ import {useQuery} from "react-query";
 import {getTweetRequest} from "../util/api";
 import TweetInput from "../components/tweetInput";
 import Header from "../components/Header";
+import {useAuth} from "../useAuth";
 
 export default function FullTweet() {
   const {tweetID} = useParams();
+  const authUser = useAuth();
   const {data} = useQuery(["getTweet", tweetID], () =>
     getTweetRequest(tweetID)
   );
@@ -25,7 +27,7 @@ export default function FullTweet() {
         </Link>
       )}
       <TweetContent data={data || {}}></TweetContent>
-      <TweetInput tweet={data} isReply={true}></TweetInput>
+      {authUser && <TweetInput tweet={data} isReply={true}></TweetInput>}
       <Replies data={data?.replies || []}></Replies>
     </>
   );

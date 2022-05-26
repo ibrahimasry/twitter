@@ -84,14 +84,14 @@ export default function Profile() {
     isFollowing,
     _id,
   } = user || {};
-
+  const notFound = error?.response?.data.error.field == "username";
   if (isLoading)
     return (
       <div className="h-screen flex justify-center items-center">
         <AiOutlineLoading3Quarters className="animate-pulse animate-ping h-14 w-14"></AiOutlineLoading3Quarters>
       </div>
     );
-  const isOwner = currUser.username === username;
+  const isOwner = currUser && currUser.username === username;
   return (
     <>
       <Header title="profile" goBack={true}></Header>
@@ -106,18 +106,20 @@ export default function Profile() {
               <img className="w-full h-full rounded-full " src={avatar}></img>
             </div>
             <span className="space-y-2 p-2 mt-5">
-              <Button
-                username={username}
-                _id={_id}
-                followingState={isFollowing}
-              ></Button>
+              {currUser && (
+                <Button
+                  username={username}
+                  _id={_id}
+                  followingState={isFollowing}
+                ></Button>
+              )}
               {isOwner && (
                 <button onClick={() => setProfileEditing(true)}>
                   edit profile
                 </button>
               )}
 
-              {!isOwner && (
+              {!isOwner && currUser && (
                 <AiFillMessage
                   className="h-6 w-6"
                   onClick={() => {
@@ -206,6 +208,7 @@ export default function Profile() {
           </div>
         </div>
         <div className="w-full">
+          {notFound && <span>there is no profile with that username</span>}
           {user && (
             <UserTweets>
               <Routes>

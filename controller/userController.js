@@ -17,8 +17,9 @@ export const getUserLikes = async (req, res) => {
     .skip(skip)
     .limit(limit)
     .lean();
+
   if (!data || data.length == 0) return res.json({});
-  const tweets = serializeTweets(data, req);
+  let tweets = serializeTweets(data, req);
 
   return res.json({data: tweets, nextCursor: page + 1});
 };
@@ -41,8 +42,7 @@ export const getUserTweets = async (req, res) => {
     .limit(limit)
     .lean();
   if (!data || data.length == 0) return res.json({});
-
-  const tweets = serializeTweets(data, req);
+  let tweets = serializeTweets(data, req);
 
   return res.json({data: tweets, nextCursor: page + 1});
 };
@@ -53,7 +53,7 @@ export const getUserInfo = async (req, res) => {
 
   const user = await User.findOne({username}).lean();
   if (!user)
-    throw new ErrorResponse("no profile with that username", username, 404);
+    throw new ErrorResponse("no profile with that username", "username", 404);
   if (authUser && authUser?.username !== username)
     user.isFollowing = !!(await User.findOne({
       username,

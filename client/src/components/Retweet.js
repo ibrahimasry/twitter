@@ -4,10 +4,15 @@ import {postRetweetRequest} from "../util/api";
 import {AiOutlineRetweet} from "react-icons/ai";
 import {useMutation} from "react-query";
 import {FaRetweet} from "react-icons/fa";
+import {useAuth} from "../useAuth";
+import {useNavigate} from "react-router-dom";
 
 export default function Retweet({tweet, setShowDialog, openUsers}) {
   const [showPopOver, setShowPopOver] = useState(false);
   const ref = useRef();
+  const authUser = useAuth();
+  const navigate = useNavigate();
+
   const [isRetweeted, setIsRetweeted] = useState(tweet?.alreadyRetweet);
   const [tweetCount, setTweetCount] = useState(tweet.retweets);
   const tweetId = tweet.isRetweet ? tweet.retweetData._id : tweet._id;
@@ -25,6 +30,7 @@ export default function Retweet({tweet, setShowDialog, openUsers}) {
 
   const handleRetweetClick = (e) => {
     e.stopPropagation();
+
     setShowPopOver(false);
 
     retweetMutate({
@@ -38,6 +44,8 @@ export default function Retweet({tweet, setShowDialog, openUsers}) {
       <span
         onClick={(e) => {
           e.stopPropagation();
+          if (!authUser) navigate("/");
+
           setShowPopOver(true);
         }}
         className={`${
