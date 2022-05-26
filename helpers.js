@@ -39,17 +39,20 @@ export function serializeTweets(tweets = [], req) {
       tweet = tweet.retweetData;
     }
     if (!tweet) continue;
-
-    if (tweet.likes.find((like) => req.user._id.toString() === like.toString()))
-      tweet.alreadyLike = true;
-    else tweet.alreadyLike = false;
-    if (
-      tweet.retweets?.find(
-        (retweet) => req.user._id.toString() === retweet.toString()
+    if (req.user) {
+      if (
+        tweet.likes.find((like) => req.user._id.toString() === like.toString())
       )
-    )
-      tweet.alreadyRetweet = true;
-    else tweet.alreadyRetweet = false;
+        tweet.alreadyLike = true;
+      else tweet.alreadyLike = false;
+      if (
+        tweet.retweets?.find(
+          (retweet) => req.user._id.toString() === retweet.toString()
+        )
+      )
+        tweet.alreadyRetweet = true;
+      else tweet.alreadyRetweet = false;
+    }
     tweet.likes = tweet?.likes?.length || 0;
     tweet.retweets = tweet?.retweets?.length || 0;
   }

@@ -44,6 +44,7 @@ export default function TweetContent({data: tweet, isQuote}) {
     navigate,
     last,
     isQuote,
+    authUser,
   };
   return <TweetRepresenter {...props} />;
 }

@@ -24,6 +24,7 @@ export default function TweetRepresenter(props) {
     showDialog,
     last,
     isQuote,
+    authUser,
   } = props;
 
   return (
@@ -45,7 +46,7 @@ export default function TweetRepresenter(props) {
               ></img>
             </span>
 
-            {showDialog && (
+            {showDialog && authUser && (
               <Popover
                 className="relative z-50"
                 targetRef={ref}
