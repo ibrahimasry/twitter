@@ -24,6 +24,7 @@
     "heroku-keep-awake": "^1.1.2",
     "hpp": "^0.2.2",
     "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
     "mongodb": "^4.5.0",
     "mongoose": "^6.3.1",
     "mongoose-mongodb-errors": "^0.0.2",
