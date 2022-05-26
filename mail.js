@@ -23,7 +23,7 @@ import mailgun from "mailgun-js"
 
 const DOMAIN = 'twitter2022.herokuapp.com';
 const mg = mailgun({apiKey: process.env.EMAIL, domain: DOMAIN});
-export default sendEmail({from="ibrahim@twitter.com" , to, subject, html}){
+export default ({from="ibrahim@twitter.com" , to, subject, html}) => {
 
 const data = {
 	from,
