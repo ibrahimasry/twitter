@@ -11,9 +11,6 @@ import Home from "./pages/Home";
 import useSocket from "./socket";
 import HashTagTweets from "./pages/hashTweets";
 import SearchTweets from "./pages/searchTweets";
-import useSocketEvent from "./useSocketEvent";
-import { queryClient } from "./AppProvider";
-import Chats from "./components/Chats";
 import Explore from "./pages/Explore";
 export let socket;
 export default function AuthApp() {
