@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import FullTweet from "./pages/FullTweet";
 
 import Layout from "./pages/Layout";
@@ -12,14 +12,16 @@ import useSocket from "./socket";
 import HashTagTweets from "./pages/hashTweets";
 import SearchTweets from "./pages/searchTweets";
 import useSocketEvent from "./useSocketEvent";
-import {queryClient} from "./AppProvider";
+import { queryClient } from "./AppProvider";
 import Chats from "./components/Chats";
+import Explore from "./pages/Explore";
 export let socket;
 export default function AuthApp() {
   socket = useSocket();
   return (
     <Layout>
       <Routes>
+        <Route path="explore/*" element={<Explore />}></Route>
         <Route path="tweets/search" element={<SearchTweets />}></Route>
 
         <Route

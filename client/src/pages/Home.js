@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {useInfiniteQuery} from "react-query";
-import {useBottomScrollListener} from "react-bottom-scroll-listener";
+import React, { useState } from "react";
+import { useInfiniteQuery } from "react-query";
+import { useBottomScrollListener } from "react-bottom-scroll-listener";
 import TimeLine from "../components/timeline";
 import TweetInput from "../components/tweetInput";
-import {getTimeLine} from "../util/api";
-import {CircularProgress} from "@mui/material";
+import { getTimeLine } from "../util/api";
+import { CircularProgress } from "@mui/material";
 import useSocketEvent from "../useSocketEvent";
-import {useAuth} from "../useAuth";
+import { useAuth } from "../useAuth";
 import Header from "../components/Header";
 import Trends from "../components/Trends";
 import Suggest from "../components/suggest";
@@ -33,7 +33,7 @@ export default function Home() {
   useBottomScrollListener(fetchNextPage, {
     offset: 300,
     debounce: 100,
-    debounceOptions: {leading: true},
+    debounceOptions: { leading: true },
     triggerOnNoScroll: false,
   });
   useSocketEvent("newTweet", () => setNewTweet((prev) => prev + 1));
@@ -80,7 +80,7 @@ export default function Home() {
             hasNextPage={hasNextPage}
           ></TimeLine>
         </div>
-        <div className="hidden h-[80vh] md:flex-col md:flex mt-24 border rounded-2xl shadow-lg border-secondary p-4 space-y-5">
+        <div className="hidden h-screen md:flex-col md:flex mt-24 border rounded-2xl shadow-lg border-secondary p-4 space-y-5">
           <Trends></Trends>
 
           <Suggest></Suggest>

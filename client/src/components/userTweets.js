@@ -27,7 +27,7 @@ export default function UserTweets(props) {
   );
 }
 
-function ListItem({children}) {
+export function ListItem({ children }) {
   return (
     <li className="p-2 text-neutral transition-all ease-in">{children}</li>
   );

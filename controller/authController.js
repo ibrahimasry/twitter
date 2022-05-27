@@ -12,7 +12,9 @@ export const login = async (req, res) => {
     throw new ErrorResponse("please provide valid data !", "all", 403);
   const user = await User.findOne({
     $or: [{ username }, { email }],
-  }).select("password");
+  })
+    .select("password name avatar username")
+    .lean();
 
   if (!user)
     throw new ErrorResponse("email , username and password arent matching ");
@@ -20,6 +22,7 @@ export const login = async (req, res) => {
   const isValidPass = await bcrypt.compare(password, user.password);
   if (!isValidPass)
     return res.status(404).json({ message: "password is wrong" });
+  delete user.password;
   req.session.regenerate(function (err) {
     if (err) next(err);
     const token = sign({ id: user._id }, process.env.JWT_SECRET, {

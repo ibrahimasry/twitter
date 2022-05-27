@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {at} from "lodash";
-import {useField} from "formik";
+import React, { useState } from "react";
+import { at } from "lodash";
+import { useField } from "formik";
 
 export default function TextInput(props) {
   const [field, meta] = useField(props);
@@ -38,7 +38,7 @@ export default function TextInput(props) {
           {...field}
           onFocus={onFocusHandler}
           onBlur={onBlurHandler}
-          type="text"
+          type={field.name == "password" ? "password" : "text"}
           className="block relative w-9/12 p-1 py-2  border-solid border-secondary border-2 outline-none  peer focus:bg-secondary "
         />
         <span

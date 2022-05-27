@@ -1,8 +1,8 @@
 import axios from "axios";
-import {useMutation, useQuery, useQueryClient} from "react-query";
-import {queryClient} from "../AppProvider";
-import {useAuth} from "../useAuth";
-import {socket} from "../authApp";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { queryClient } from "../AppProvider";
+import { useAuth } from "../useAuth";
+import { socket } from "../authApp";
 const baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8080/api/"
@@ -13,7 +13,7 @@ const client = axios.create({
 });
 
 export async function loginRequest(data) {
-  const res = await client.post("/login", {...data});
+  const res = await client.post("/login", { ...data });
   if (res.status == 200) window.location.pathname = "/";
 
   return res;
@@ -27,12 +27,12 @@ export async function logoutRequest() {
 }
 
 export async function signUpRequest(data) {
-  let res = await client.post("/signup", {...data});
+  let res = await client.post("/signup", { ...data });
   return res;
 }
 
 export async function verifyRequest(data) {
-  const res = await client.post("/verify", {...data});
+  const res = await client.post("/verify", { ...data });
   return res;
 }
 export async function getUser(data) {
@@ -40,7 +40,7 @@ export async function getUser(data) {
   return res?.data?.user;
 }
 
-export async function getProfile({username}) {
+export async function getProfile({ username }) {
   const res = await client.get("/user/" + username);
   return res?.data?.user;
 }
@@ -54,13 +54,13 @@ export function useGetNotifications() {
   return res.data;
 }
 
-export async function getProfileLikes({pageParam = 0, username}) {
+export async function getProfileLikes({ pageParam = 0, username }) {
   const res = await client.get(
     "/user/" + username + "/likes?page=" + pageParam
   );
   return res?.data;
 }
-export async function getProfileTweets({username, filter, pageParam = 0}) {
+export async function getProfileTweets({ username, filter, pageParam = 0 }) {
   let URL = `/user/${username}/tweets?page=${pageParam}`;
   if (filter) URL += `&search=${filter}`;
 
@@ -84,7 +84,7 @@ export async function postTweet(data) {
   return res;
 }
 
-export function useDeleteTweet({_id}) {
+export function useDeleteTweet({ _id }) {
   const user = useAuth();
   const deleteTweet = async () => {
     await client.delete("/tweets/" + _id);
@@ -97,9 +97,12 @@ export function useDeleteTweet({_id}) {
     ]);
   };
 
-  const {mutate, isLoading, isError} = useMutation("deleteTweet", deleteTweet);
+  const { mutate, isLoading, isError } = useMutation(
+    "deleteTweet",
+    deleteTweet
+  );
 
-  return {mutate, isLoading, isError};
+  return { mutate, isLoading, isError };
 }
 
 export async function getChats(data) {
@@ -113,10 +116,10 @@ export async function getChat(data) {
   return res.data?.data || {};
 }
 
-export async function postMessage({text, chatId}) {
+export async function postMessage({ text, chatId }) {
   if (text.trim().length == 0) return;
 
-  const res = await client.post("/message", {text, chatId});
+  const res = await client.post("/message", { text, chatId });
 
   await queryClient.refetchQueries("getChat");
   await queryClient.refetchQueries("getChats");
@@ -124,7 +127,7 @@ export async function postMessage({text, chatId}) {
 }
 
 export async function createChat(data) {
-  const res = await client.post("/chat", {members: data});
+  const res = await client.post("/chat", { members: data });
 
   queryClient.invalidateQueries("getChats");
   return res;
@@ -140,44 +143,44 @@ export async function getLikes() {
   return res?.data?.data || [];
 }
 
-export async function getTweetLikes({_id, pageParam}) {
+export async function getTweetLikes({ _id, pageParam }) {
   const res = await client.get(`/tweets/${_id}/likes?page=${pageParam || 0}`);
   return res?.data || [];
 }
 
-export async function getTweetRetweets({_id, pageParam}) {
+export async function getTweetRetweets({ _id, pageParam }) {
   const res = await client.get(
     `/tweets/${_id}/retweets?page=${pageParam || 0}`
   );
   return res?.data || [];
 }
 
-export async function getFollowers({_id, pageParam}) {
+export async function getFollowers({ _id, pageParam }) {
   const res = await client.get(
     `/user/profile/${_id}/followers?page=${pageParam || 0}`
   );
   return res?.data || [];
 }
-export async function getFollowings({_id, pageParam}) {
+export async function getFollowings({ _id, pageParam }) {
   const res = await client.get(
     `/user/profile/${_id}/followings?page=${pageParam || 0}`
   );
   return res?.data || [];
 }
 
-export async function getTimeLine({pageParam = 0}) {
+export async function getTimeLine({ pageParam = 0 }) {
   const res = await client.get("/tweets?page=" + pageParam || 0);
   return res?.data || [];
 }
 
-export async function getHashTagTimeLine({pageParam = 0, hashtag}) {
+export async function getHashTagTimeLine({ pageParam = 0, hashtag }) {
   const res = await client.get(
     `/tweets/hashtag/${hashtag}?page=${pageParam || 0}`
   );
   return res?.data || [];
 }
 
-export async function getSearchTimeLine({pageParam = 0, query}) {
+export async function getSearchTimeLine({ pageParam = 0, query }) {
   const res = await client.get(
     `/tweets/search?query=${query}&page=${pageParam}`
   );
@@ -185,9 +188,9 @@ export async function getSearchTimeLine({pageParam = 0, query}) {
 }
 
 export async function getUsernameRequest(values) {
-  const res = await client.post("/username", {values});
+  const res = await client.post("/username", { values });
   if (res.status == 200)
-    window.location.pathname = res.data?.username + "/profile";
+    window.location.pathnamepathname = res.data?.username + "/profile";
   return res?.data?.username || "";
 }
 
@@ -196,15 +199,16 @@ export async function getSuggestionRequest(values) {
   return res;
 }
 
-export function useFollowMutation({username, _id}) {
-  const {username: currUser} = useAuth();
+export function useFollowMutation({ username, _id }) {
+  let user = useAuth();
+  let currUser = user && user.username;
   const followUserRequest = async () =>
-    await client.post("/users/follow", {_id});
-  const {mutate} = useMutation(
+    await client.post("/users/follow", { _id });
+  const { mutate } = useMutation(
     followUserRequest.name,
-    () => followUserRequest({username, _id}),
+    () => followUserRequest({ username, _id }),
     {
-      onSuccess: async ({data}) => {
+      onSuccess: async ({ data }) => {
         await queryClient.invalidateQueries("getSuggestion");
         await queryClient.refetchQueries(["getProfile", username]);
         await queryClient.refetchQueries(["getProfile", currUser]);
@@ -214,7 +218,14 @@ export function useFollowMutation({username, _id}) {
     }
   );
 
-  return {mutate};
+  if (currUser == undefined)
+    return {
+      mutate() {
+        window.location.pathname = "/";
+      },
+    };
+
+  return { mutate };
 }
 
 export async function getTweetRequest(_id) {
@@ -234,13 +245,13 @@ export async function postQuoteRequest(values) {
   );
 }
 
-export function usePostLike({tweet, willLike}, onMutate) {
+export function usePostLike({ tweet, willLike }, onMutate) {
   const user = useAuth();
   tweet = tweet.isRetweet ? tweet.retweetData : tweet;
   const tweetId = tweet._id;
   const apiCall = async () =>
     await client.post("/tweets/" + tweetId.toString() + "/like");
-  const {mutate: likeMutate} = useMutation("usePostLike", apiCall, {
+  const { mutate: likeMutate } = useMutation("usePostLike", apiCall, {
     onSuccess: async () => {
       const notifyUser = willLike;
 

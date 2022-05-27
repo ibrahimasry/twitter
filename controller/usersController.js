@@ -3,13 +3,22 @@ import User from "../models/user.js";
 import Notification from "../models/Notificaton.js";
 
 export const getFollowSuggestions = async function (req, res) {
-  const {_id} = req.user;
-  const {followings} = await User.findById(_id);
-  const users = await User.find({_id: {$nin: [...followings, _id]}})
-    .sort({
-      "followers.length": -1,
-    })
-    .limit(4);
+  let users;
+  if (!!req.user) {
+    const { _id } = req.user;
+    const { followings } = await User.findById(_id);
+    users = await User.find({ _id: { $nin: [...followings, _id] } })
+      .sort({
+        "followers.length": -1,
+      })
+      .limit(4);
+  } else {
+    users = await User.find({})
+      .sort({
+        "followers.length": -1,
+      })
+      .limit(4);
+  }
   res.json(users);
 };
 
@@ -35,11 +44,11 @@ export const toggleFollowing = async (req, res) => {
 
   await User.findByIdAndUpdate(
     followingId,
-    {[op]: {followings: followerId}},
-    {upsert: true, new: true}
+    { [op]: { followings: followerId } },
+    { upsert: true, new: true }
   );
   let query = {
-    [op]: {followers: followingId},
+    [op]: { followers: followingId },
   };
 
   if (notification) {
@@ -49,15 +58,15 @@ export const toggleFollowing = async (req, res) => {
     followerId,
 
     query,
-    {upsert: true, new: true}
+    { upsert: true, new: true }
   );
 
-  res.json({followerId, followingId});
+  res.json({ followerId, followingId });
 };
 
 export const searchUsers = async (req, res) => {
   const search = req.query.search;
-  const users = await User.find({$text: {$search: search}});
+  const users = await User.find({ $text: { $search: search } });
 
-  res.json({data: users});
+  res.json({ data: users });
 };

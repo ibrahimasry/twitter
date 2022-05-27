@@ -1,20 +1,26 @@
-import {useMutation, useQueryClient} from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import tw from "tailwind-styled-components";
 import Suggest from "../components/suggest";
-import {logoutRequest} from "../util/api";
-import {AiOutlineLogout} from "react-icons/ai";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
-import {useAuth} from "../useAuth";
+import { logoutRequest } from "../util/api";
+import { AiOutlineLogout } from "react-icons/ai";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useAuth } from "../useAuth";
 import useSocketEvent from "../useSocketEvent";
-import {Children, useState} from "react";
-import {BsTwitter} from "react-icons/bs";
+import { Children, useState } from "react";
+import { BsTwitter } from "react-icons/bs";
 import Trends from "../components/Trends";
-import {HomeIcon, InboxIcon, NotificationsIcon, ProfileIcon} from "../icons";
-import {MainLink} from "../components/navLink";
-export default function Layout({children}) {
+import {
+  ExploreIcon,
+  HomeIcon,
+  InboxIcon,
+  NotificationsIcon,
+  ProfileIcon,
+} from "../icons";
+import { MainLink } from "../components/navLink";
+export default function Layout({ children }) {
   const user = useAuth();
-  const {username, refetch, notifications} = user;
-  const {mutate} = useMutation("logout", logoutRequest);
+  const { username, refetch, notifications } = user;
+  const { mutate } = useMutation("logout", logoutRequest);
   const [currNotifications, setCurrNotifications] = useState(notifications);
   const [currMesseges, setCurrMessages] = useState(0);
   const [searchParams] = useSearchParams();
@@ -22,7 +28,6 @@ export default function Layout({children}) {
   useSocketEvent("newNoftication", () =>
     setCurrNotifications((prev) => prev + 1)
   );
-
 
   useSocketEvent("message", async (data) => {
     setCurrMessages((prev) => prev + 1);
@@ -55,6 +60,9 @@ export default function Layout({children}) {
           </MainLink>
           <MainLink end to={`${username}`}>
             <ProfileIcon classes={"w-8 h-8 md:w-12 md:h-12"}></ProfileIcon>
+          </MainLink>
+          <MainLink end to={`/explore`}>
+            <ExploreIcon classes={"w-8 h-8 md:w-12 md:h-12"}></ExploreIcon>
           </MainLink>
 
           <MainLink to={`/${username}/notifications`}>

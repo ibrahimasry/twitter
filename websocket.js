@@ -1,7 +1,7 @@
 import * as io from "socket.io";
 import User from "./models/user.js";
 import Chat from "./models/chat.js";
-import {origin} from "./cors-config.js";
+import { origin } from "./cors-config.js";
 
 export default class WebSocket {
   constructor(app) {
@@ -12,9 +12,9 @@ export default class WebSocket {
     const socket = this.socket;
 
     socket.on("notify", async (data) => {
-      const {content, from, to} = data;
+      const { content, from, to } = data;
       if (to.toString() !== from.toString())
-        socket.to(to).emit("newNoftication", {content, from});
+        socket.to(to).emit("newNoftication", { content, from });
     });
   }
 
@@ -22,7 +22,7 @@ export default class WebSocket {
     const socket = this.socket;
 
     socket.on("newTweet", async (data) => {
-      let {followers} = await User.findById(socket._id).lean();
+      let { followers } = await User.findById(socket._id).lean();
       let to = followers.map((follower) => follower.toString());
       if (to.length) socket.to(to).emit("newTweet");
     });
@@ -32,10 +32,10 @@ export default class WebSocket {
     const socket = this.socket;
 
     socket.on("follow", async (data) => {
-      const {followerId, followingId, isFollowing} = data;
+      const { followerId, followingId, isFollowing } = data;
       socket
         .to(followerId.toString())
-        .emit("follow", {followingId, followingId, isFollowing});
+        .emit("follow", { followingId, followingId, isFollowing });
     });
   }
 
@@ -43,8 +43,8 @@ export default class WebSocket {
     const self = this;
     const socket = this.socket;
     socket.on("message", async (data) => {
-      const {userId, chatId, message} = data;
-      const chat = await Chat.findOne({_id: chatId, members: userId}).lean();
+      const { userId, chatId, message } = data;
+      const chat = await Chat.findOne({ _id: chatId, members: userId }).lean();
       if (!chat) return;
       chat.members = chat.members.map(String);
 
@@ -53,7 +53,7 @@ export default class WebSocket {
       for (let [id, socket] of self.currSocketServer.of("/").sockets) {
         if (members.has(socket._id)) {
           members.delete(socket._id);
-          socket.to(socket._id).emit("message", {chatId});
+          socket.to(socket._id).emit("message", { chatId });
         }
       }
     });
@@ -65,14 +65,14 @@ export default class WebSocket {
       let data = await User.findById(value.userId).select("follower").lean();
 
       let followers = data.followers?.map((follower) => follower.toString());
-      socket.to(followers).emit("newLike", {tweetId: value.tweetId});
+      socket.to(followers).emit("newLike", { tweetId: value.tweetId });
     });
   }
 
   start(app) {
     const self = this;
     self.currSocketServer = new io.Server(app, {
-      cors: {credentials: true, origin},
+      cors: { credentials: true },
     });
     this.handshakeMiddleware(self.currSocketServer);
     self.currSocketServer.on("connection", self.onConnnection());
