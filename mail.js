@@ -1,9 +1,3 @@
-
-
-
-
-
-// import mailgun from "mailgun-js"
 import sgMail from "@sendgrid/mail";
 sgMail.setApiKey(process.env.EMAIL);
 
@@ -24,7 +18,6 @@ export default async function sendEmail({
     console.error(e, "error");
   }
 }
-
 
 // const DOMAIN = 'twitter2022.herokuapp.com';
 // const mg = mailgun({apiKey: process.env.EMAIL, domain: DOMAIN});

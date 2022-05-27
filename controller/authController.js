@@ -1,39 +1,40 @@
-import {ErrorResponse} from "../errorHandler.js";
+import { ErrorResponse } from "../errorHandler.js";
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import sendEmail from "../mail.js";
 import jwt from "jsonwebtoken";
-const {sign, verify} = jwt;
+const { sign, verify } = jwt;
 export const login = async (req, res) => {
-  const {username, password} = req.body;
+  const { username, password } = req.body;
   const email = username;
 
   if ([email, password].some((curr) => curr.trim().length == 0))
     throw new ErrorResponse("please provide valid data !", "all", 403);
   const user = await User.findOne({
-    $or: [{username}, {email}],
-  });
+    $or: [{ username }, { email }],
+  }).select("password");
 
   if (!user)
     throw new ErrorResponse("email , username and password arent matching ");
 
   const isValidPass = await bcrypt.compare(password, user.password);
-  if (!isValidPass) return res.status(404).json({message: "password is wrong"});
+  if (!isValidPass)
+    return res.status(404).json({ message: "password is wrong" });
   req.session.regenerate(function (err) {
     if (err) next(err);
-    const token = sign({id: user._id}, process.env.JWT_SECRET, {
+    const token = sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
     req.session.token = token;
-    res.json({user});
+    res.json({ user });
   });
 };
 
-export const signup = async ({body}, res) => {
+export const signup = async ({ body }, res) => {
   const birthDate = body.year + "-" + body.month + "-" + body.day;
   const verificationExpiry = Date.now() + 1000 * 60 * 10;
   const verificationCode = Math.floor(1000 + Math.random() * 9000);
-  let dup = await User.findOne({email: body.email});
+  let dup = await User.findOne({ email: body.email });
   if (dup) throw new ErrorResponse("email already exits", "email", 401);
 
   await User.create({
@@ -45,14 +46,14 @@ export const signup = async ({body}, res) => {
     verificationExpiry,
   });
   const html = `<span> code to verfiy your account : ${verificationCode} </span>`;
-  await sendEmail({to: body.email, subject: "account verificaton", html});
-  return res.json({success: true});
+  await sendEmail({ to: body.email, subject: "account verificaton", html });
+  return res.json({ success: true });
 };
 
-export const verfiy = async ({body}, res) => {
-  const {email} = body;
+export const verfiy = async ({ body }, res) => {
+  const { email } = body;
   if (body.code) {
-    let user = await User.findOne({email});
+    let user = await User.findOne({ email });
     if (user) {
       if (
         user.verificationCode === body.code &&
@@ -62,7 +63,7 @@ export const verfiy = async ({body}, res) => {
         user.verificationCode = undefined;
         user.verificationExpiry = undefined;
         const result = await user.save();
-        res.json({user: result});
+        res.json({ user: result });
       } else throw new ErrorResponse("code is wrong", "code", 401);
     }
   } else {
@@ -72,15 +73,15 @@ export const verfiy = async ({body}, res) => {
 
 export const pickUsername = async (req, res, next) => {
   const {
-    body: {values},
+    body: { values },
   } = req;
 
-  let {email, username} = values;
+  let { email, username } = values;
   email = email?.toLowerCase();
   username = username?.toLowerCase();
 
-  const user = await User.findOne({email});
-  const dup = await User.findOne({username});
+  const user = await User.findOne({ email });
+  const dup = await User.findOne({ username });
   if (dup) {
     return next(
       new ErrorResponse("username is already taken", "username", 401)
@@ -96,10 +97,10 @@ export const pickUsername = async (req, res, next) => {
   await user.save();
   req.session.regenerate(function (err) {
     if (err) next(err);
-    const token = sign({id: user._id}, process.env.JWT_SECRET, {
+    const token = sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
     req.session.token = token;
-    res.json({user});
+    res.json({ user });
   });
 };
