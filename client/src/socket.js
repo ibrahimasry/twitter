@@ -1,7 +1,7 @@
-import {io} from "socket.io-client";
-import {useEffect, useState} from "react";
-import {useAuth} from "./useAuth";
-import {debounce} from "lodash";
+import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
+import { useAuth } from "./useAuth";
+import { debounce } from "lodash";
 
 function useSocket(params) {
   const URL =
