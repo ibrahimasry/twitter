@@ -7,7 +7,7 @@ async function db(params) {
     await mongoose.connect(url);
     console.log("done");
   } catch (error) {
-    handleError(error);
+    console.log(error);
   }
 }
 
