@@ -7,7 +7,7 @@ function useSocket(params) {
   const URL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:8080"
-      : "https://twitter2022.herokuapp.com/";
+      : "https://twitter-bfo8.onrender.com";
   const [socket, setSocket] = useState(null);
   const user = useAuth();
 
